@@ -4,6 +4,17 @@
   "description": "Framework-agnostic universal document renderer — PDF, EPUB, DOCX, CSV, code, and plain text with optional chunked/paged loading",
   "license": "Zlib",
   "type": "module",
+  "homepage": "https://tangled.org/aria.pds.witchcraft.systems/polyrender/blob/main/packages/core/README.md",
+  "bugs": {
+    "url": "https://tangled.org/aria.pds.witchcraft.systems/polyrender/issues",
+    "email": "polyrender@aria.coffee"
+  },
+  "author": "Aria Quinlan <hello@aria.coffee> (http://aria.coffee/)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://tangled.org/aria.pds.witchcraft.systems/polyrender",
+    "directory": "packages/core"
+  },
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
