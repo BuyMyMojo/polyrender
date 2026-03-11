@@ -20,7 +20,7 @@ const isWatch = process.argv.includes("--watch");
 const resolvePeerDeps = {
     name: "resolve-peer-deps",
     setup(build) {
-        build.onLoad({ filter: /polyrender.*\.(js|ts)$/ }, async (args) => {
+        build.onLoad({ filter: /packages[\\/]core.*\.(js|ts)$/ }, async (args) => {
             const fs = await import("fs");
             let contents = fs.readFileSync(args.path, "utf8");
 

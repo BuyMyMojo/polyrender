@@ -37,7 +37,7 @@ function resolvePeerDeps(): Plugin {
     enforce: 'pre',
     transform(code: string, id: string) {
       // Only transform the @polyrender/core bundle
-      if (!id.includes('polyrender')) return
+      if (!id.includes('packages/core')) return
       if (!code.includes('moduleName')) return
 
       // Replace `await import(moduleName)` or `await import(\n  moduleName\n)`
