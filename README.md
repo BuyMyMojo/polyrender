@@ -428,6 +428,10 @@ packages/
     └── package.json
 ```
 
+## Live Demo
+
+A hosted version of the vanilla example is available at **https://polyrender.wisp.place/**.
+
 ## Repository
 
 The source code is hosted in two locations:
