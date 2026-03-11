@@ -287,6 +287,15 @@ PolyRender.registerRenderer('custom-markdown', () => new MarkdownRenderer())
 | Pages | _(none)_ | N/A (explicit `type: 'pages'`) |
 | Chunked PDF | `pdfjs-dist` | N/A (explicit `type: 'chunked'`) |
 
+## Repository
+
+The source code is hosted in two locations:
+
+- **Tangled** (primary): https://tangled.org/aria.pds.witchcraft.systems/polyrender
+- **GitHub** (mirror): https://github.com/BuyMyMojo/polyrender
+
+This package lives under `packages/core` in the monorepo.
+
 ## License
 
 Zlib

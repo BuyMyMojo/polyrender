@@ -428,6 +428,13 @@ packages/
     └── package.json
 ```
 
+## Repository
+
+The source code is hosted in two locations:
+
+- **Tangled** (primary): https://tangled.org/aria.pds.witchcraft.systems/polyrender
+- **GitHub** (mirror): https://github.com/BuyMyMojo/polyrender
+
 ## License
 
 Zlib
