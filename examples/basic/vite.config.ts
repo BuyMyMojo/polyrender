@@ -33,11 +33,11 @@ function resolvePeerDeps(): Plugin {
   ].join('\n')
 
   return {
-    name: 'resolve-docview-peer-deps',
+    name: 'resolve-polyrender-peer-deps',
     enforce: 'pre',
     transform(code: string, id: string) {
-      // Only transform the @docview/core bundle
-      if (!id.includes('docview')) return
+      // Only transform the @polyrender/core bundle
+      if (!id.includes('polyrender')) return
       if (!code.includes('moduleName')) return
 
       // Replace `await import(moduleName)` or `await import(\n  moduleName\n)`

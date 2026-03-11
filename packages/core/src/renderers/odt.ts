@@ -1,4 +1,4 @@
-import type { DocViewOptions, DocumentFormat } from '../types.js'
+import type { PolyRenderOptions, DocumentFormat } from '../types.js'
 import { BaseRenderer } from '../renderer.js'
 import { el, toArrayBuffer, fetchAsBuffer, requirePeerDep } from '../utils.js'
 
@@ -27,7 +27,7 @@ export class OdtRenderer extends BaseRenderer {
 
   private odtContainer!: HTMLElement
 
-  protected async onMount(viewport: HTMLElement, options: DocViewOptions): Promise<void> {
+  protected async onMount(viewport: HTMLElement, options: PolyRenderOptions): Promise<void> {
     this.showLoading('Rendering ODT document…')
 
     const JSZipLib = await requirePeerDep<JSZip>('jszip', 'ODT')
@@ -265,14 +265,14 @@ export class OdtRenderer extends BaseRenderer {
       .replace(/"/g, '&quot;')
   }
 
-  private async loadData(options: DocViewOptions): Promise<ArrayBuffer> {
+  private async loadData(options: PolyRenderOptions): Promise<ArrayBuffer> {
     const source = options.source
     if (source.type === 'file') return toArrayBuffer(source.data)
     if (source.type === 'url') return fetchAsBuffer(source.url, source.fetchOptions)
     throw new Error('ODT renderer requires a file or url source.')
   }
 
-  private getFilename(options: DocViewOptions): string | undefined {
+  private getFilename(options: PolyRenderOptions): string | undefined {
     const source = options.source
     if ('filename' in source && source.filename) return source.filename
     if (source.type === 'url') return source.url.split('/').pop()?.split('?')[0]

@@ -1,4 +1,4 @@
-import type { DocViewOptions, DocumentFormat } from '../types.js'
+import type { PolyRenderOptions, DocumentFormat } from '../types.js'
 import { BaseRenderer } from '../renderer.js'
 import { el, toText, fetchAsBuffer, requirePeerDep, getLanguageFromExtension } from '../utils.js'
 
@@ -20,7 +20,7 @@ export class CodeRenderer extends BaseRenderer {
   private codeContainer!: HTMLElement
   private hljs: HighlightJS | null = null
 
-  protected async onMount(viewport: HTMLElement, options: DocViewOptions): Promise<void> {
+  protected async onMount(viewport: HTMLElement, options: PolyRenderOptions): Promise<void> {
     this.showLoading('Loading file…')
 
     // Try to load highlight.js (optional peer dep)
@@ -89,7 +89,7 @@ export class CodeRenderer extends BaseRenderer {
     })
   }
 
-  private async loadText(options: DocViewOptions): Promise<string> {
+  private async loadText(options: PolyRenderOptions): Promise<string> {
     const source = options.source
     if (source.type === 'file') return toText(source.data)
     if (source.type === 'url') {
@@ -99,7 +99,7 @@ export class CodeRenderer extends BaseRenderer {
     return ''
   }
 
-  private detectLanguage(options: DocViewOptions): string | null {
+  private detectLanguage(options: PolyRenderOptions): string | null {
     // From explicit format
     const format = options.format
     if (format && format !== 'code') {
@@ -133,7 +133,7 @@ export class CodeRenderer extends BaseRenderer {
       .replace(/"/g, '&quot;')
   }
 
-  private getFilename(options: DocViewOptions): string | undefined {
+  private getFilename(options: PolyRenderOptions): string | undefined {
     const source = options.source
     if ('filename' in source && source.filename) return source.filename
     if (source.type === 'url') return source.url.split('/').pop()?.split('?')[0]

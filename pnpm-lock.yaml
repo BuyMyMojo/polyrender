@@ -8,16 +8,13 @@ importers:
 
   .:
     devDependencies:
-      pdfjs-dist:
-        specifier: ^5.5.207
-        version: 5.5.207
       typescript:
         specifier: ^5.5.0
         version: 5.9.3
 
   examples/basic:
     dependencies:
-      '@docview/core':
+      '@polyrender/core':
         specifier: workspace:*
         version: link:../../packages/core
       docx-preview:
@@ -51,7 +48,7 @@ importers:
 
   examples/vanilla:
     dependencies:
-      '@docview/core':
+      '@polyrender/core':
         specifier: workspace:*
         version: link:../../packages/core
       docx-preview:
@@ -116,7 +113,7 @@ importers:
 
   packages/react:
     dependencies:
-      '@docview/core':
+      '@polyrender/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:

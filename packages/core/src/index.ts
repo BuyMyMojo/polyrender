@@ -1,5 +1,5 @@
 // Main entry point
-export { DocView } from './docview.js'
+export { PolyRender } from './polyrender.js'
 
 // Types
 export type {
@@ -22,7 +22,7 @@ export type {
   TextFetchAdapter,
 
   // Options
-  DocViewOptions,
+  PolyRenderOptions,
   PdfOptions,
   CodeOptions,
   CsvOptions,
@@ -33,7 +33,7 @@ export type {
 
   // State & Info
   DocumentInfo,
-  DocViewState,
+  PolyRenderState,
   DocumentFormat,
 
   // Renderer interface (for custom renderers)
@@ -41,14 +41,14 @@ export type {
   RendererFactory,
 
   // Events
-  DocViewEventMap,
-  DocViewEventType,
+  PolyRenderEventMap,
+  PolyRenderEventType,
 
   // Errors
-  DocViewErrorCode,
+  PolyRenderErrorCode,
 } from './types.js'
 
-export { DocViewError } from './types.js'
+export { PolyRenderError } from './types.js'
 
 // Registry (for custom renderer registration)
 export { registry } from './registry.js'

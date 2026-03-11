@@ -1,5 +1,5 @@
 {
-  "name": "@docview/example-basic",
+  "name": "@polyrender/example-basic",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@docview/core": "workspace:*",
+    "@polyrender/core": "workspace:*",
     "pdfjs-dist": ">=4.0.0",
     "epubjs": ">=0.3.0",
     "docx-preview": ">=0.3.0",

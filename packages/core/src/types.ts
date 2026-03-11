@@ -1,5 +1,5 @@
 // ---------------------------------------------------------------------------
-// Document Sources — what consumers pass in to tell DocView what to render
+// Document Sources — what consumers pass in to tell PolyRender what to render
 // ---------------------------------------------------------------------------
 
 /** A direct file provided as binary data. */
@@ -151,10 +151,10 @@ export interface TextFetchAdapter {
 
 
 // ---------------------------------------------------------------------------
-// Options — configuration for the DocView instance
+// Options — configuration for the PolyRender instance
 // ---------------------------------------------------------------------------
 
-export interface DocViewOptions {
+export interface PolyRenderOptions {
   /** The document to render. */
   source: DocumentSource
   /** Explicit format override. If omitted, auto-detected from source. */
@@ -180,7 +180,7 @@ export interface DocViewOptions {
   /** Called when the visible page changes. */
   onPageChange?: (page: number, totalPages: number) => void
   /** Called on unrecoverable errors. */
-  onError?: (error: DocViewError) => void
+  onError?: (error: PolyRenderError) => void
   /** Called when zoom level changes. */
   onZoomChange?: (zoom: number) => void
   /** Called when loading state changes. */
@@ -290,12 +290,12 @@ export interface DocumentInfo {
   fileSize?: number
 }
 
-/** Current viewer state, queryable from a DocView instance. */
-export interface DocViewState {
+/** Current viewer state, queryable from a PolyRender instance. */
+export interface PolyRenderState {
   /** Whether the document is currently loading. */
   loading: boolean
   /** Current error, if any. */
-  error: DocViewError | null
+  error: PolyRenderError | null
   /** Current 1-indexed page number. */
   currentPage: number
   /** Total page count. */
@@ -311,7 +311,7 @@ export interface DocViewState {
 // Errors
 // ---------------------------------------------------------------------------
 
-export type DocViewErrorCode =
+export type PolyRenderErrorCode =
   | 'FORMAT_UNSUPPORTED'
   | 'FORMAT_DETECTION_FAILED'
   | 'PEER_DEPENDENCY_MISSING'
@@ -321,13 +321,13 @@ export type DocViewErrorCode =
   | 'PAGE_OUT_OF_RANGE'
   | 'UNKNOWN'
 
-export class DocViewError extends Error {
-  code: DocViewErrorCode
+export class PolyRenderError extends Error {
+  code: PolyRenderErrorCode
   detail?: unknown
 
-  constructor(code: DocViewErrorCode, message: string, detail?: unknown) {
+  constructor(code: PolyRenderErrorCode, message: string, detail?: unknown) {
     super(message)
-    this.name = 'DocViewError'
+    this.name = 'PolyRenderError'
     this.code = code
     this.detail = detail
   }
@@ -363,7 +363,7 @@ export type DocumentFormat =
 
 /**
  * The contract every format renderer must fulfill. Each renderer manages
- * its own DOM subtree within the provided container element. The DocView
+ * its own DOM subtree within the provided container element. The PolyRender
  * orchestrator calls these methods in response to user actions and source
  * changes.
  */
@@ -376,13 +376,13 @@ export interface Renderer {
    * Called once after the renderer is created. The container is an empty div
    * scoped to this renderer — the renderer owns its entire DOM subtree.
    */
-  mount(container: HTMLElement, options: DocViewOptions): Promise<void>
+  mount(container: HTMLElement, options: PolyRenderOptions): Promise<void>
 
   /**
    * React to changed options (theme, zoom, etc.) without full re-mount.
    * Only the changed fields will be present.
    */
-  update(changed: Partial<DocViewOptions>): Promise<void>
+  update(changed: Partial<PolyRenderOptions>): Promise<void>
 
   /** Navigate to a specific page (1-indexed). */
   goToPage(page: number): void
@@ -411,7 +411,7 @@ export interface Renderer {
 
 /**
  * Factory function that creates a renderer instance. Registered in the
- * format registry so DocView can instantiate the right renderer for each
+ * format registry so PolyRender can instantiate the right renderer for each
  * document format.
  */
 export type RendererFactory = () => Renderer
@@ -421,13 +421,13 @@ export type RendererFactory = () => Renderer
 // Events (for vanilla JS event-driven usage)
 // ---------------------------------------------------------------------------
 
-export interface DocViewEventMap {
+export interface PolyRenderEventMap {
   ready: DocumentInfo
   pagechange: { page: number; totalPages: number }
   zoomchange: { zoom: number }
-  error: DocViewError
+  error: PolyRenderError
   loadingchange: { loading: boolean }
   destroy: void
 }
 
-export type DocViewEventType = keyof DocViewEventMap
+export type PolyRenderEventType = keyof PolyRenderEventMap

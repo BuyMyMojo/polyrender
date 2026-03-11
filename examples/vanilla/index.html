@@ -1,80 +1,89 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DocView — Vanilla TS Example</title>
-    <link rel="stylesheet" href="./styles.css" />
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>PolyRender — Vanilla TS Example</title>
+        <link rel="stylesheet" href="./styles.css" />
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
 
-      body {
-        font-family: system-ui, -apple-system, sans-serif;
-        background: #0f0f0f;
-        color: #e0e0e0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        min-height: 100vh;
-        padding: 2rem;
-      }
+            body {
+                font-family:
+                    system-ui,
+                    -apple-system,
+                    sans-serif;
+                background: #0f0f0f;
+                color: #e0e0e0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                min-height: 100vh;
+                padding: 2rem;
+            }
 
-      h1 {
-        font-size: 1.5rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-        color: #fff;
-      }
+            h1 {
+                font-size: 1.5rem;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+                color: #fff;
+            }
 
-      .subtitle {
-        font-size: 0.875rem;
-        color: #888;
-        margin-bottom: 1.5rem;
-      }
+            .subtitle {
+                font-size: 0.875rem;
+                color: #888;
+                margin-bottom: 1.5rem;
+            }
 
-      #viewer {
-        width: 100%;
-        max-width: 900px;
-        height: 80vh;
-        border-radius: 8px;
-        overflow: hidden;
-        border: 1px solid #2a2a2a;
-      }
+            #viewer {
+                width: 100%;
+                max-width: 900px;
+                height: 80vh;
+                border-radius: 8px;
+                overflow: hidden;
+                border: 1px solid #2a2a2a;
+            }
 
-      .controls {
-        margin-top: 1rem;
-        display: flex;
-        gap: 0.5rem;
-      }
+            .controls {
+                margin-top: 1rem;
+                display: flex;
+                gap: 0.5rem;
+            }
 
-      .controls label {
-        font-size: 0.875rem;
-        color: #aaa;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
+            .controls label {
+                font-size: 0.875rem;
+                color: #aaa;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
 
-      .controls input[type="file"] {
-        font-size: 0.8rem;
-        color: #ccc;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>DocView — Vanilla TS Example</h1>
-    <p class="subtitle">No Vite. Just TypeScript + esbuild. Pick a file below to view it.</p>
-    <div class="controls">
-      <label>
-        Open a document:
-        <input type="file" id="file-input" accept=".pdf,.epub,.docx,.odt,.ods,.csv,.tsv,.txt,.md,.json,.js,.ts,.py,.rs,.go,.java,.c,.cpp,.html,.xml,.svg" />
-      </label>
-    </div>
-    <div id="viewer"></div>
-    <script type="module" src="./main.js"></script>
-  </body>
+            .controls input[type="file"] {
+                font-size: 0.8rem;
+                color: #ccc;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>PolyRender — Vanilla TS Example</h1>
+        <p class="subtitle">
+            No Vite. Just TypeScript + esbuild. Pick a file below to view it.
+        </p>
+        <div class="controls">
+            <label>
+                Open a document:
+                <input
+                    type="file"
+                    id="file-input"
+                    accept=".pdf,.epub,.docx,.odt,.ods,.csv,.tsv,.txt,.md,.json,.js,.ts,.py,.rs,.go,.java,.c,.cpp,.html,.xml,.svg"
+                />
+            </label>
+        </div>
+        <div id="viewer"></div>
+        <script type="module" src="./main.js"></script>
+    </body>
 </html>

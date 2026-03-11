@@ -1,14 +1,14 @@
 import type {
-  DocViewOptions,
-  DocViewState,
+  PolyRenderOptions,
+  PolyRenderState,
   DocumentFormat,
   Renderer,
   RendererFactory,
-  DocViewEventMap,
-  DocViewEventType,
+  PolyRenderEventMap,
+  PolyRenderEventType,
   ToolbarConfig,
 } from './types.js'
-import { DocViewError } from './types.js'
+import { PolyRenderError } from './types.js'
 import { registry } from './registry.js'
 import { detectFormat, getRendererFormat, clearElement } from './utils.js'
 import { createToolbar, type ToolbarHandle } from './toolbar.js'
@@ -24,17 +24,17 @@ function ensureRegistered() {
 }
 
 /**
- * DocView — Universal Document Viewer
+ * PolyRender — Universal Document Viewer
  *
  * Framework-agnostic entry point. Creates a document viewer inside a container
  * element, auto-detecting the format and loading the appropriate renderer.
  *
  * @example
  * ```ts
- * import { DocView } from '@docview/core'
- * import '@docview/core/styles.css'
+ * import { PolyRender } from '@polyrender/core'
+ * import '@polyrender/core/styles.css'
  *
- * const viewer = new DocView(document.getElementById('viewer')!, {
+ * const viewer = new PolyRender(document.getElementById('viewer')!, {
  *   source: { type: 'url', url: '/document.pdf' },
  *   theme: 'dark',
  *   onReady: (info) => console.log('Loaded:', info.pageCount, 'pages'),
@@ -47,16 +47,16 @@ function ensureRegistered() {
  * viewer.destroy()
  * ```
  */
-export class DocView {
+export class PolyRender {
   private container: HTMLElement
-  private options: DocViewOptions
+  private options: PolyRenderOptions
   private renderer: Renderer | null = null
   private toolbar: ToolbarHandle | null = null
   private root: HTMLElement
   private listeners = new Map<string, Set<(data: unknown) => void>>()
   private destroyed = false
 
-  constructor(container: HTMLElement, options: DocViewOptions) {
+  constructor(container: HTMLElement, options: PolyRenderOptions) {
     ensureRegistered()
 
     this.container = container
@@ -64,15 +64,15 @@ export class DocView {
 
     // Create root element
     this.root = document.createElement('div')
-    this.root.className = `docview${options.className ? ` ${options.className}` : ''}`
+    this.root.className = `polyrender${options.className ? ` ${options.className}` : ''}`
     this.root.setAttribute('data-theme', this.resolveTheme(options.theme))
     container.appendChild(this.root)
 
     // Initialize asynchronously
     this.init().catch((err) => {
-      const error = err instanceof DocViewError
+      const error = err instanceof PolyRenderError
         ? err
-        : new DocViewError('UNKNOWN', String(err), err)
+        : new PolyRenderError('UNKNOWN', String(err), err)
       options.onError?.(error)
       this.emit('error', error)
     })
@@ -110,7 +110,7 @@ export class DocView {
   }
 
   /** Get current viewer state. */
-  getState(): DocViewState {
+  getState(): PolyRenderState {
     if (!this.renderer) {
       return {
         loading: true,
@@ -132,23 +132,23 @@ export class DocView {
   }
 
   /** Update options (theme, zoom, etc.) without re-mounting. */
-  async update(changed: Partial<DocViewOptions>): Promise<void> {
+  async update(changed: Partial<PolyRenderOptions>): Promise<void> {
     Object.assign(this.options, changed)
 
     if (changed.theme) {
       this.root.setAttribute('data-theme', this.resolveTheme(changed.theme))
     }
     if (changed.className !== undefined) {
-      this.root.className = `docview${changed.className ? ` ${changed.className}` : ''}`
+      this.root.className = `polyrender${changed.className ? ` ${changed.className}` : ''}`
     }
 
     await this.renderer?.update(changed)
   }
 
   /** Subscribe to events. Returns an unsubscribe function. */
-  on<K extends DocViewEventType>(
+  on<K extends PolyRenderEventType>(
     event: K,
-    callback: (data: DocViewEventMap[K]) => void,
+    callback: (data: PolyRenderEventMap[K]) => void,
   ): () => void {
     if (!this.listeners.has(event)) {
       this.listeners.set(event, new Set())
@@ -193,7 +193,7 @@ export class DocView {
     const format = explicitFormat ?? detectedFormat
 
     if (!format) {
-      throw new DocViewError(
+      throw new PolyRenderError(
         'FORMAT_DETECTION_FAILED',
         'Could not detect the document format. Provide a `format` option or ensure ' +
         'the source has a recognizable filename, URL extension, or MIME type.',
@@ -206,7 +206,7 @@ export class DocView {
     // Create renderer
     const renderer = registry.create(rendererFormat)
     if (!renderer) {
-      throw new DocViewError(
+      throw new PolyRenderError(
         'FORMAT_UNSUPPORTED',
         `No renderer registered for format "${rendererFormat}". ` +
         `Available formats: ${registry.formats().join(', ')}`,
@@ -297,7 +297,7 @@ export class DocView {
     }
   }
 
-  private emit<K extends DocViewEventType>(event: K, data: DocViewEventMap[K]): void {
+  private emit<K extends PolyRenderEventType>(event: K, data: PolyRenderEventMap[K]): void {
     const callbacks = this.listeners.get(event)
     if (callbacks) {
       for (const cb of callbacks) {

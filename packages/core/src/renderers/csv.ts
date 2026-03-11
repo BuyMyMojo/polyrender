@@ -1,4 +1,4 @@
-import type { DocViewOptions, DocumentFormat } from '../types.js'
+import type { PolyRenderOptions, DocumentFormat } from '../types.js'
 import { BaseRenderer } from '../renderer.js'
 import { el, toText, fetchAsBuffer, requirePeerDep } from '../utils.js'
 
@@ -30,7 +30,7 @@ export class CsvRenderer extends BaseRenderer {
   private sortCol = -1
   private sortAsc = true
 
-  protected async onMount(viewport: HTMLElement, options: DocViewOptions): Promise<void> {
+  protected async onMount(viewport: HTMLElement, options: PolyRenderOptions): Promise<void> {
     this.showLoading('Parsing data…')
 
     const Papa = await requirePeerDep<PapaParse>('papaparse', 'CSV')
@@ -156,7 +156,7 @@ export class CsvRenderer extends BaseRenderer {
     this.renderTable(true)
   }
 
-  private async loadText(options: DocViewOptions): Promise<string> {
+  private async loadText(options: PolyRenderOptions): Promise<string> {
     const source = options.source
     if (source.type === 'file') return toText(source.data)
     if (source.type === 'url') {
@@ -166,7 +166,7 @@ export class CsvRenderer extends BaseRenderer {
     return ''
   }
 
-  private getFilename(options: DocViewOptions): string | undefined {
+  private getFilename(options: PolyRenderOptions): string | undefined {
     const source = options.source
     if ('filename' in source && source.filename) return source.filename
     if (source.type === 'url') return source.url.split('/').pop()?.split('?')[0]

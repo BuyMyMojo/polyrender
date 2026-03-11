@@ -1,4 +1,4 @@
-import type { DocViewOptions, DocumentFormat } from '../types.js'
+import type { PolyRenderOptions, DocumentFormat } from '../types.js'
 import { BaseRenderer } from '../renderer.js'
 import { el, toArrayBuffer, fetchAsBuffer, requirePeerDep } from '../utils.js'
 
@@ -35,7 +35,7 @@ export class OdsRenderer extends BaseRenderer {
   private sortCol = -1
   private sortAsc = true
 
-  protected async onMount(viewport: HTMLElement, options: DocViewOptions): Promise<void> {
+  protected async onMount(viewport: HTMLElement, options: PolyRenderOptions): Promise<void> {
     this.showLoading('Parsing spreadsheet…')
 
     const XLSX = await requirePeerDep<XLSXLib>('xlsx', 'ODS')
@@ -213,14 +213,14 @@ export class OdsRenderer extends BaseRenderer {
     }
   }
 
-  private async loadData(options: DocViewOptions): Promise<ArrayBuffer> {
+  private async loadData(options: PolyRenderOptions): Promise<ArrayBuffer> {
     const source = options.source
     if (source.type === 'file') return toArrayBuffer(source.data)
     if (source.type === 'url') return fetchAsBuffer(source.url, source.fetchOptions)
     throw new Error('ODS renderer requires a file or url source.')
   }
 
-  private getFilename(options: DocViewOptions): string | undefined {
+  private getFilename(options: PolyRenderOptions): string | undefined {
     const source = options.source
     if ('filename' in source && source.filename) return source.filename
     if (source.type === 'url') return source.url.split('/').pop()?.split('?')[0]

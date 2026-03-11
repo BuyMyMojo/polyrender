@@ -7,7 +7,7 @@ export { useDocumentRenderer } from './useDocumentRenderer.js'
 export type { UseDocumentRendererOptions, UseDocumentRendererReturn } from './useDocumentRenderer.js'
 
 // Re-export core types for convenience (so consumers don't need to
-// install @docview/core separately just for types)
+// install @polyrender/core separately just for types)
 export type {
   DocumentSource,
   FileSource,
@@ -21,18 +21,18 @@ export type {
   PageFetchAdapter,
   ChunkFetchAdapter,
   TextFetchAdapter,
-  DocViewOptions,
+  PolyRenderOptions,
   PdfOptions,
   CodeOptions,
   CsvOptions,
   EpubOptions,
   ToolbarConfig,
   DocumentInfo,
-  DocViewState,
+  PolyRenderState,
   DocumentFormat,
-  DocViewEventMap,
-  DocViewEventType,
-  DocViewErrorCode,
-} from '@docview/core'
+  PolyRenderEventMap,
+  PolyRenderEventType,
+  PolyRenderErrorCode,
+} from '@polyrender/core'
 
-export { DocViewError, DocView } from '@docview/core'
+export { PolyRenderError, PolyRender } from '@polyrender/core'

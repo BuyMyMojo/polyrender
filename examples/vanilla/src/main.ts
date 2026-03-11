@@ -1,9 +1,9 @@
-import { DocView } from '@docview/core'
+import { PolyRender } from '@polyrender/core'
 
 const viewerEl = document.getElementById('viewer')!
 const fileInput = document.getElementById('file-input') as HTMLInputElement
 
-let viewer: DocView | null = null
+let viewer: PolyRender | null = null
 
 fileInput.addEventListener('change', () => {
   const file = fileInput.files?.[0]
@@ -15,8 +15,8 @@ fileInput.addEventListener('change', () => {
     viewer = null
   }
 
-  // Create a new DocView instance with the selected file
-  viewer = new DocView(viewerEl, {
+  // Create a new PolyRender instance with the selected file
+  viewer = new PolyRender(viewerEl, {
     source: {
       type: 'file',
       data: file,
@@ -32,7 +32,7 @@ fileInput.addEventListener('change', () => {
       console.log(`Loaded "${file.name}" — ${info.pageCount} page(s), format: ${info.format}`)
     },
     onError: (err) => {
-      console.error('DocView error:', err)
+      console.error('PolyRender error:', err)
     },
   })
 })

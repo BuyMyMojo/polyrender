@@ -1,5 +1,5 @@
 {
-  "name": "@docview/example-vanilla",
+  "name": "@polyrender/example-vanilla",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,7 +9,7 @@
     "dev": "node build.js --watch"
   },
   "dependencies": {
-    "@docview/core": "workspace:*",
+    "@polyrender/core": "workspace:*",
     "pdfjs-dist": ">=4.0.0",
     "epubjs": ">=0.3.0",
     "docx-preview": ">=0.3.0",

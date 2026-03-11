@@ -1,11 +1,11 @@
 import type {
   Renderer,
-  DocViewOptions,
+  PolyRenderOptions,
   DocumentFormat,
   DocumentInfo,
-  DocViewState,
+  PolyRenderState,
 } from './types.js'
-import { DocViewError } from './types.js'
+import { PolyRenderError } from './types.js'
 import { el, clearElement } from './utils.js'
 
 /**
@@ -23,8 +23,8 @@ export abstract class BaseRenderer implements Renderer {
 
   protected container!: HTMLElement
   protected viewport!: HTMLElement
-  protected options!: DocViewOptions
-  protected state: DocViewState = {
+  protected options!: PolyRenderOptions
+  protected state: PolyRenderState = {
     loading: true,
     error: null,
     currentPage: 1,
@@ -33,7 +33,7 @@ export abstract class BaseRenderer implements Renderer {
     documentInfo: null,
   }
 
-  async mount(container: HTMLElement, options: DocViewOptions): Promise<void> {
+  async mount(container: HTMLElement, options: PolyRenderOptions): Promise<void> {
     this.container = container
     this.options = options
     this.state.currentPage = options.initialPage ?? 1
@@ -47,9 +47,9 @@ export abstract class BaseRenderer implements Renderer {
     try {
       await this.onMount(this.viewport, options)
     } catch (err) {
-      const error = err instanceof DocViewError
+      const error = err instanceof PolyRenderError
         ? err
-        : new DocViewError('RENDER_FAILED', String(err), err)
+        : new PolyRenderError('RENDER_FAILED', String(err), err)
       this.state.error = error
       this.state.loading = false
       this.showError(error)
@@ -57,7 +57,7 @@ export abstract class BaseRenderer implements Renderer {
     }
   }
 
-  async update(changed: Partial<DocViewOptions>): Promise<void> {
+  async update(changed: Partial<PolyRenderOptions>): Promise<void> {
     Object.assign(this.options, changed)
     await this.onUpdate(changed)
   }
@@ -99,13 +99,13 @@ export abstract class BaseRenderer implements Renderer {
   // --- Subclass hooks ---
 
   /** Render the document into the viewport. */
-  protected abstract onMount(viewport: HTMLElement, options: DocViewOptions): Promise<void>
+  protected abstract onMount(viewport: HTMLElement, options: PolyRenderOptions): Promise<void>
 
   /** Clean up format-specific resources. */
   protected abstract onDestroy(): void
 
   /** React to option changes. Default: no-op. */
-  protected async onUpdate(_changed: Partial<DocViewOptions>): Promise<void> {}
+  protected async onUpdate(_changed: Partial<PolyRenderOptions>): Promise<void> {}
 
   /** Navigate to a page in the rendered content. Default: no-op. */
   protected onPageChange(_page: number): void {}
@@ -140,7 +140,7 @@ export abstract class BaseRenderer implements Renderer {
   }
 
   /** Show an error message in the viewport. */
-  protected showError(error: DocViewError): void {
+  protected showError(error: PolyRenderError): void {
     clearElement(this.viewport)
     const errorEl = el('div', 'dv-error')
     errorEl.innerHTML = `

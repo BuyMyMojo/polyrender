@@ -3,7 +3,7 @@ import type { DocumentFormat, Renderer, RendererFactory } from './types.js'
 /**
  * Registry mapping document formats to their renderer factories.
  * Built-in renderers are registered by default. Consumers can register
- * custom renderers for new formats via `DocView.registerRenderer()`.
+ * custom renderers for new formats via `PolyRender.registerRenderer()`.
  */
 class FormatRegistry {
   private factories = new Map<DocumentFormat, RendererFactory>()

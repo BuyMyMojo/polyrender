@@ -1,4 +1,4 @@
-import type { DocViewOptions, DocumentFormat } from '../types.js'
+import type { PolyRenderOptions, DocumentFormat } from '../types.js'
 import { BaseRenderer } from '../renderer.js'
 import { el, toText, fetchAsBuffer } from '../utils.js'
 
@@ -11,7 +11,7 @@ export class TextRenderer extends BaseRenderer {
 
   private textContainer!: HTMLElement
 
-  protected async onMount(viewport: HTMLElement, options: DocViewOptions): Promise<void> {
+  protected async onMount(viewport: HTMLElement, options: PolyRenderOptions): Promise<void> {
     this.showLoading('Loading text…')
 
     const text = await this.loadText(options)
@@ -34,7 +34,7 @@ export class TextRenderer extends BaseRenderer {
     })
   }
 
-  private async loadText(options: DocViewOptions): Promise<string> {
+  private async loadText(options: PolyRenderOptions): Promise<string> {
     const source = options.source
     if (source.type === 'file') {
       return toText(source.data)
@@ -46,7 +46,7 @@ export class TextRenderer extends BaseRenderer {
     return ''
   }
 
-  private getExtension(options: DocViewOptions): string {
+  private getExtension(options: PolyRenderOptions): string {
     const source = options.source
     const name = ('filename' in source ? source.filename : undefined)
       ?? (source.type === 'url' ? source.url : '')
@@ -54,7 +54,7 @@ export class TextRenderer extends BaseRenderer {
     return dot >= 0 ? name.slice(dot + 1).toLowerCase() : ''
   }
 
-  private getFilename(options: DocViewOptions): string | undefined {
+  private getFilename(options: PolyRenderOptions): string | undefined {
     const source = options.source
     if ('filename' in source && source.filename) return source.filename
     if (source.type === 'url') {

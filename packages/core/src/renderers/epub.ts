@@ -1,4 +1,4 @@
-import type { DocViewOptions, DocumentFormat } from '../types.js'
+import type { PolyRenderOptions, DocumentFormat } from '../types.js'
 import { BaseRenderer } from '../renderer.js'
 import { el, toArrayBuffer, fetchAsBuffer, requirePeerDep } from '../utils.js'
 
@@ -52,7 +52,7 @@ export class EpubRenderer extends BaseRenderer {
   private epubContainer!: HTMLElement
   private keyHandler: ((e: KeyboardEvent) => void) | null = null
 
-  protected async onMount(viewport: HTMLElement, options: DocViewOptions): Promise<void> {
+  protected async onMount(viewport: HTMLElement, options: PolyRenderOptions): Promise<void> {
     this.showLoading('Loading book…')
 
     const epubjs = await requirePeerDep<EpubJSModule>('epubjs', 'EPUB')
@@ -163,7 +163,7 @@ export class EpubRenderer extends BaseRenderer {
     this.rendition?.display(String(page - 1))
   }
 
-  private getFilename(options: DocViewOptions): string | undefined {
+  private getFilename(options: PolyRenderOptions): string | undefined {
     const source = options.source
     if ('filename' in source && source.filename) return source.filename
     if (source.type === 'url') return source.url.split('/').pop()?.split('?')[0]

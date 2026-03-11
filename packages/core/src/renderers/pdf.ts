@@ -1,5 +1,5 @@
-import type { DocViewOptions, DocumentFormat, DocumentInfo } from '../types.js'
-import { DocViewError } from '../types.js'
+import type { PolyRenderOptions, DocumentFormat, DocumentInfo } from '../types.js'
+import { PolyRenderError } from '../types.js'
 import { BaseRenderer } from '../renderer.js'
 import {
   el,
@@ -58,7 +58,7 @@ export class PdfRenderer extends BaseRenderer {
   private resizeObserver: ResizeObserver | null = null
   private debouncedRender: ReturnType<typeof debounce> | null = null
 
-  protected async onMount(viewport: HTMLElement, options: DocViewOptions): Promise<void> {
+  protected async onMount(viewport: HTMLElement, options: PolyRenderOptions): Promise<void> {
     const loadingEl = this.showLoading('Loading PDF…')
 
     // Load pdfjs-dist
@@ -182,7 +182,7 @@ export class PdfRenderer extends BaseRenderer {
   }
 
   private async loadSource(
-    options: DocViewOptions,
+    options: PolyRenderOptions,
   ): Promise<ArrayBuffer | string> {
     const source = options.source
     if (source.type === 'url') {
@@ -192,7 +192,7 @@ export class PdfRenderer extends BaseRenderer {
     if (source.type === 'file') {
       return toArrayBuffer(source.data)
     }
-    throw new DocViewError(
+    throw new PolyRenderError(
       'SOURCE_LOAD_FAILED',
       'PDF renderer requires a file or url source.',
     )
@@ -334,7 +334,7 @@ export class PdfRenderer extends BaseRenderer {
     return this.baseScale * (mode === 'fit-page' ? 0.95 : 1)
   }
 
-  private getFilename(options: DocViewOptions): string | undefined {
+  private getFilename(options: PolyRenderOptions): string | undefined {
     const src = options.source
     if ('filename' in src && src.filename) return src.filename
     if (src.type === 'url') {

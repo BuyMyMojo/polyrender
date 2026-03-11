@@ -1,4 +1,4 @@
-import type { ToolbarConfig, DocViewState } from './types.js'
+import type { ToolbarConfig, PolyRenderState } from './types.js'
 import { el, svgIcon, icons } from './utils.js'
 
 export interface ToolbarActions {
@@ -16,7 +16,7 @@ export interface ToolbarHandle {
   /** Root toolbar element. */
   element: HTMLElement
   /** Update displayed state (page, total, zoom). */
-  updateState(state: DocViewState): void
+  updateState(state: PolyRenderState): void
   /** Destroy and clean up listeners. */
   destroy(): void
 }
@@ -28,7 +28,7 @@ export interface ToolbarHandle {
 export function createToolbar(
   config: ToolbarConfig,
   actions: ToolbarActions,
-  initialState: DocViewState,
+  initialState: PolyRenderState,
 ): ToolbarHandle {
   const toolbar = el('div', 'dv-toolbar')
   if (config.position === 'bottom') {
@@ -136,7 +136,7 @@ export function createToolbar(
 
   return {
     element: toolbar,
-    updateState(state: DocViewState) {
+    updateState(state: PolyRenderState) {
       if (pageInput) pageInput.value = String(state.currentPage)
       if (pageLabel) pageLabel.textContent = `/ ${state.totalPages}`
       if (zoomLabel) zoomLabel.textContent = `${Math.round(state.zoom * 100)}%`

@@ -6,7 +6,7 @@ export default defineConfig({
   dts: true,
   sourcemap: true,
   clean: true,
-  external: ['react', 'react-dom', '@docview/core'],
+  external: ['react', 'react-dom', '@polyrender/core'],
   esbuildOptions(options) {
     options.jsx = 'automatic'
   },

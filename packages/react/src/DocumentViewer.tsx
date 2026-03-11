@@ -3,13 +3,13 @@ import type {
   DocumentSource,
   DocumentFormat,
   DocumentInfo,
-  DocViewError,
+  PolyRenderError,
   ToolbarConfig,
   PdfOptions,
   CodeOptions,
   CsvOptions,
   EpubOptions,
-} from '@docview/core'
+} from '@polyrender/core'
 import { useDocumentRenderer } from './useDocumentRenderer.js'
 
 export interface DocumentViewerProps {
@@ -44,7 +44,7 @@ export interface DocumentViewerProps {
   onReady?: (info: DocumentInfo) => void
   onPageChange?: (page: number, totalPages: number) => void
   onZoomChange?: (zoom: number) => void
-  onError?: (error: DocViewError) => void
+  onError?: (error: PolyRenderError) => void
   onLoadingChange?: (loading: boolean) => void
 
   // --- Format-specific options ---
@@ -70,13 +70,13 @@ export interface DocumentViewerRef {
 /**
  * React component for rendering documents of any supported format.
  *
- * Wraps the framework-agnostic `@docview/core` library with React lifecycle
+ * Wraps the framework-agnostic `@polyrender/core` library with React lifecycle
  * management, ref-based imperative API, and automatic cleanup.
  *
  * @example
  * ```tsx
- * import { DocumentViewer } from '@docview/react'
- * import '@docview/core/styles.css'
+ * import { DocumentViewer } from '@polyrender/react'
+ * import '@polyrender/core/styles.css'
  *
  * function App() {
  *   return (
@@ -184,7 +184,7 @@ export const DocumentViewer = forwardRef<DocumentViewerRef, DocumentViewerProps>
       <div
         ref={containerRef as any}
         style={containerStyle}
-        data-docview-wrapper=""
+        data-polyrender-wrapper=""
       />
     )
   },

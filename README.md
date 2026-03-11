@@ -1,8 +1,8 @@
-# DocView
+# PolyRender
 
 A framework-agnostic, universal document renderer for the browser. Render PDFs, EPUBs, DOCX files, CSVs, source code, and plain text — with optional support for pre-rendered page images and chunked streaming for large documents.
 
-**Core** (`@docview/core`) is a vanilla TypeScript library with zero framework dependencies. **React** (`@docview/react`) provides a thin wrapper component and hook. Both are designed for drop-in use in any web project.
+**Core** (`@polyrender/core`) is a vanilla TypeScript library with zero framework dependencies. **React** (`@polyrender/react`) provides a thin wrapper component and hook. Both are designed for drop-in use in any web project.
 
 ## Features
 
@@ -19,10 +19,10 @@ A framework-agnostic, universal document renderer for the browser. Render PDFs, 
 
 ```bash
 # Core (vanilla JS)
-npm install @docview/core
+npm install @polyrender/core
 
 # React wrapper
-npm install @docview/react
+npm install @polyrender/react
 
 # Install peer dependencies for the formats you need:
 npm install pdfjs-dist       # PDF
@@ -39,10 +39,10 @@ You only need to install peer dependencies for the formats you plan to render. U
 ### Vanilla JS
 
 ```typescript
-import { DocView } from '@docview/core'
-import '@docview/core/styles.css'
+import { PolyRender } from '@polyrender/core'
+import '@polyrender/core/styles.css'
 
-const viewer = new DocView(document.getElementById('viewer')!, {
+const viewer = new PolyRender(document.getElementById('viewer')!, {
   source: { type: 'url', url: '/document.pdf' },
   theme: 'dark',
   toolbar: true,
@@ -65,8 +65,8 @@ viewer.destroy()
 ### React
 
 ```tsx
-import { DocumentViewer } from '@docview/react'
-import '@docview/core/styles.css'
+import { DocumentViewer } from '@polyrender/react'
+import '@polyrender/core/styles.css'
 
 function App() {
   return (
@@ -85,8 +85,8 @@ function App() {
 
 ```tsx
 import { useRef } from 'react'
-import { DocumentViewer, type DocumentViewerRef } from '@docview/react'
-import '@docview/core/styles.css'
+import { DocumentViewer, type DocumentViewerRef } from '@polyrender/react'
+import '@polyrender/core/styles.css'
 
 function App() {
   const viewerRef = useRef<DocumentViewerRef>(null)
@@ -109,8 +109,8 @@ function App() {
 ### React Hook (headless)
 
 ```tsx
-import { useDocumentRenderer } from '@docview/react'
-import '@docview/core/styles.css'
+import { useDocumentRenderer } from '@polyrender/react'
+import '@polyrender/core/styles.css'
 
 function CustomViewer({ url }: { url: string }) {
   const { containerRef, state, goToPage, setZoom } = useDocumentRenderer({
@@ -135,7 +135,7 @@ function CustomViewer({ url }: { url: string }) {
 
 ## Document Sources
 
-DocView accepts four types of document sources:
+PolyRender accepts four types of document sources:
 
 ### File (binary data)
 
@@ -226,11 +226,11 @@ source = {
 
 ## Theming
 
-DocView uses CSS custom properties for all visual styling. Override any `--dv-*` variable to customize:
+PolyRender uses CSS custom properties for all visual styling. Override any `--dv-*` variable to customize:
 
 ```css
 /* Custom theme */
-.my-viewer .docview {
+.my-viewer .polyrender {
   --dv-bg: #1e1e2e;
   --dv-surface: #2a2a3e;
   --dv-text: #cdd6f4;
@@ -320,12 +320,12 @@ See `styles.css` for the complete list.
 Register a renderer for any format:
 
 ```typescript
-import { DocView, BaseRenderer, type DocViewOptions, type DocumentFormat } from '@docview/core'
+import { PolyRender, BaseRenderer, type PolyRenderOptions, type DocumentFormat } from '@polyrender/core'
 
 class MarkdownRenderer extends BaseRenderer {
   readonly format: DocumentFormat = 'custom-markdown'
 
-  protected async onMount(viewport: HTMLElement, options: DocViewOptions) {
+  protected async onMount(viewport: HTMLElement, options: PolyRenderOptions) {
     // Your rendering logic here
     const text = await this.loadText(options.source)
     const html = myMarkdownLib.render(text)
@@ -337,10 +337,10 @@ class MarkdownRenderer extends BaseRenderer {
 }
 
 // Register globally
-DocView.registerRenderer('custom-markdown', () => new MarkdownRenderer())
+PolyRender.registerRenderer('custom-markdown', () => new MarkdownRenderer())
 
 // Use it
-new DocView(container, {
+new PolyRender(container, {
   source: { type: 'url', url: '/readme.md' },
   format: 'custom-markdown',
 })
@@ -372,10 +372,10 @@ new DocView(container, {
 
 ```
 packages/
-├── core/           @docview/core — Framework-agnostic TypeScript core
+├── core/           @polyrender/core — Framework-agnostic TypeScript core
 │   ├── src/
 │   │   ├── types.ts          # All interfaces and types
-│   │   ├── docview.ts        # Main DocView class
+│   │   ├── polyrender.ts        # Main PolyRender class
 │   │   ├── renderer.ts       # Abstract base renderer
 │   │   ├── registry.ts       # Format → renderer factory mapping
 │   │   ├── toolbar.ts        # Built-in toolbar DOM builder
@@ -391,7 +391,7 @@ packages/
 │   │       ├── code.ts       # Code (highlight.js)
 │   │       └── text.ts       # Plain text
 │   └── package.json
-└── react/          @docview/react — React wrapper
+└── react/          @polyrender/react — React wrapper
     ├── src/
     │   ├── DocumentViewer.tsx       # Drop-in component
     │   ├── useDocumentRenderer.ts   # Headless hook

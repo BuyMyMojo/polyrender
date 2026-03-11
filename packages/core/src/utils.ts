@@ -1,5 +1,5 @@
-import type { DocumentSource, DocumentFormat, DocViewError } from './types.js'
-import { DocViewError as DVError } from './types.js'
+import type { DocumentSource, DocumentFormat, PolyRenderError } from './types.js'
+import { PolyRenderError as DVError } from './types.js'
 
 // ---------------------------------------------------------------------------
 // DOM Helpers

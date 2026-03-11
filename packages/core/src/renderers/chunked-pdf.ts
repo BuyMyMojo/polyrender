@@ -1,12 +1,12 @@
 import type {
-  DocViewOptions,
+  PolyRenderOptions,
   DocumentFormat,
   ChunkedSource,
   ChunkData,
   ChunkFetchAdapter,
   PageFetchAdapter,
 } from '../types.js'
-import { DocViewError } from '../types.js'
+import { PolyRenderError } from '../types.js'
 import { BaseRenderer } from '../renderer.js'
 import { el, clamp, debounce, requirePeerDep, toArrayBuffer } from '../utils.js'
 
@@ -42,7 +42,7 @@ export class ChunkedPdfRenderer extends BaseRenderer {
   private debouncedScroll: ReturnType<typeof debounce> | null = null
   private pdfjsLib: unknown = null
 
-  protected async onMount(viewport: HTMLElement, options: DocViewOptions): Promise<void> {
+  protected async onMount(viewport: HTMLElement, options: PolyRenderOptions): Promise<void> {
     const loadingEl = this.showLoading('Loading document…')
 
     const source = options.source as ChunkedSource
@@ -66,7 +66,7 @@ export class ChunkedPdfRenderer extends BaseRenderer {
     } catch {
       // If pdfjs not available, we can still show browse pages
       if (!this.browseAdapter && !source.browsePages) {
-        throw new DocViewError(
+        throw new PolyRenderError(
           'PEER_DEPENDENCY_MISSING',
           'Chunked PDF rendering requires pdfjs-dist. Install it with: npm install pdfjs-dist',
         )

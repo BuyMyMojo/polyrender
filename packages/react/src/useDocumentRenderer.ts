@@ -1,20 +1,20 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
 import type {
-  DocViewOptions,
-  DocViewState,
+  PolyRenderOptions,
+  PolyRenderState,
   DocumentInfo,
-  DocViewError,
+  PolyRenderError,
   DocumentSource,
-} from '@docview/core'
-import { DocView } from '@docview/core'
+} from '@polyrender/core'
+import { PolyRender } from '@polyrender/core'
 
 export interface UseDocumentRendererOptions
-  extends Omit<DocViewOptions, 'source' | 'onReady' | 'onPageChange' | 'onZoomChange' | 'onError' | 'onLoadingChange'> {
+  extends Omit<PolyRenderOptions, 'source' | 'onReady' | 'onPageChange' | 'onZoomChange' | 'onError' | 'onLoadingChange'> {
   source: DocumentSource | null | undefined
   onReady?: (info: DocumentInfo) => void
   onPageChange?: (page: number, totalPages: number) => void
   onZoomChange?: (zoom: number) => void
-  onError?: (error: DocViewError) => void
+  onError?: (error: PolyRenderError) => void
   onLoadingChange?: (loading: boolean) => void
 }
 
@@ -22,7 +22,7 @@ export interface UseDocumentRendererReturn {
   /** Ref to attach to the container div. */
   containerRef: React.RefObject<HTMLDivElement | null>
   /** Current viewer state. */
-  state: DocViewState
+  state: PolyRenderState
   /** Navigate to a page. */
   goToPage: (page: number) => void
   /** Set zoom level. */
@@ -30,13 +30,13 @@ export interface UseDocumentRendererReturn {
   /** Whether the viewer is mounted and ready. */
   ready: boolean
   /** Current error, if any. */
-  error: DocViewError | null
+  error: PolyRenderError | null
 }
 
 /**
- * React hook for the DocView document renderer.
+ * React hook for the PolyRender document renderer.
  *
- * Manages the lifecycle of a DocView instance, bridging its imperative API
+ * Manages the lifecycle of a PolyRender instance, bridging its imperative API
  * to React's declarative model. Handles mounting, updating, and cleanup.
  *
  * @example
@@ -60,10 +60,10 @@ export function useDocumentRenderer(
   options: UseDocumentRendererOptions,
 ): UseDocumentRendererReturn {
   const containerRef = useRef<HTMLDivElement | null>(null)
-  const instanceRef = useRef<DocView | null>(null)
+  const instanceRef = useRef<PolyRender | null>(null)
   const optionsRef = useRef(options)
 
-  const [state, setState] = useState<DocViewState>({
+  const [state, setState] = useState<PolyRenderState>({
     loading: true,
     error: null,
     currentPage: 1,
@@ -73,7 +73,7 @@ export function useDocumentRenderer(
   })
 
   const [ready, setReady] = useState(false)
-  const [error, setError] = useState<DocViewError | null>(null)
+  const [error, setError] = useState<PolyRenderError | null>(null)
 
   // Keep options ref current
   optionsRef.current = options
@@ -93,7 +93,7 @@ export function useDocumentRenderer(
     setError(null)
     setState((s) => ({ ...s, loading: true, error: null }))
 
-    const instance = new DocView(container, {
+    const instance = new PolyRender(container, {
       ...options,
       source: options.source,
       onReady: (info) => {
@@ -139,7 +139,7 @@ export function useDocumentRenderer(
   useEffect(() => {
     if (!instanceRef.current) return
 
-    const changed: Partial<DocViewOptions> = {}
+    const changed: Partial<PolyRenderOptions> = {}
     if (options.theme) changed.theme = options.theme
     if (options.className !== undefined) changed.className = options.className
     if (options.zoom !== undefined) changed.zoom = options.zoom

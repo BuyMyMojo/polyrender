@@ -1,5 +1,5 @@
 import type {
-  DocViewOptions,
+  PolyRenderOptions,
   DocumentFormat,
   PageData,
   PageFetchAdapter,
@@ -7,7 +7,7 @@ import type {
   TextLayerData,
   TextFetchAdapter,
 } from '../types.js'
-import { DocViewError } from '../types.js'
+import { PolyRenderError } from '../types.js'
 import { BaseRenderer } from '../renderer.js'
 import { el, clamp, debounce } from '../utils.js'
 
@@ -31,7 +31,7 @@ export class BrowsePagesRenderer extends BaseRenderer {
   private observer: IntersectionObserver | null = null
   private debouncedScroll: ReturnType<typeof debounce> | null = null
 
-  protected async onMount(viewport: HTMLElement, options: DocViewOptions): Promise<void> {
+  protected async onMount(viewport: HTMLElement, options: PolyRenderOptions): Promise<void> {
     const loadingEl = this.showLoading('Loading pages…')
     const source = options.source as PagesSource
 
@@ -53,7 +53,7 @@ export class BrowsePagesRenderer extends BaseRenderer {
 
     const totalPages = this.fetchAdapter?.totalPages ?? this.pages.length
     if (totalPages === 0) {
-      throw new DocViewError('RENDER_FAILED', 'No pages provided.')
+      throw new PolyRenderError('RENDER_FAILED', 'No pages provided.')
     }
 
     // Create pages container
