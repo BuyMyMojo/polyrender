@@ -1,6 +1,6 @@
 {
   "name": "@polyrender/core",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Framework-agnostic universal document renderer — PDF, EPUB, DOCX, CSV, code, and plain text with optional chunked/paged loading",
   "license": "Zlib",
   "private": false,
