@@ -401,4 +401,4 @@ packages/
 
 ## License
 
-MIT
+Zlib
