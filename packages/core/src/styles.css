@@ -1,0 +1,699 @@
+/* ==========================================================================
+   DocView — CSS Variables Theme System
+   Override any --dv-* variable to customize the viewer appearance.
+   ========================================================================== */
+
+/* --- Base / Dark Theme (default) --- */
+.docview {
+  /* Typography */
+  --dv-font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --dv-font-mono: 'SF Mono', SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+  --dv-font-size-sm: 12px;
+  --dv-font-size: 14px;
+  --dv-font-size-lg: 16px;
+  --dv-line-height: 1.5;
+
+  /* Spacing & Radii */
+  --dv-radius-sm: 4px;
+  --dv-radius: 6px;
+  --dv-radius-lg: 10px;
+  --dv-spacing-xs: 4px;
+  --dv-spacing-sm: 8px;
+  --dv-spacing: 12px;
+  --dv-spacing-lg: 16px;
+  --dv-spacing-xl: 24px;
+
+  /* Transitions */
+  --dv-transition-fast: 100ms ease;
+  --dv-transition: 150ms ease;
+  --dv-transition-slow: 250ms ease;
+
+  /* Colors — Dark */
+  --dv-bg: #0d1117;
+  --dv-surface: #161b22;
+  --dv-surface-raised: #1c2129;
+  --dv-border: #30363d;
+  --dv-border-subtle: #21262d;
+  --dv-text: #e6edf3;
+  --dv-text-secondary: #8b949e;
+  --dv-text-muted: #484f58;
+  --dv-accent: #58a6ff;
+  --dv-accent-hover: #79b8ff;
+  --dv-accent-subtle: rgba(88, 166, 255, 0.15);
+  --dv-error: #f85149;
+  --dv-warning: #d29922;
+
+  /* Document Page */
+  --dv-page-bg: #ffffff;
+  --dv-page-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.2);
+  --dv-page-gap: 12px;
+
+  /* Toolbar */
+  --dv-toolbar-bg: #161b22;
+  --dv-toolbar-border: #30363d;
+  --dv-toolbar-height: 44px;
+
+  /* Scrollbar */
+  --dv-scrollbar-size: 8px;
+  --dv-scrollbar-thumb: #484f58;
+  --dv-scrollbar-thumb-hover: #6e7681;
+  --dv-scrollbar-track: transparent;
+
+  /* Table (CSV) */
+  --dv-table-header-bg: #161b22;
+  --dv-table-row-hover: rgba(136, 146, 158, 0.08);
+  --dv-table-stripe: rgba(136, 146, 158, 0.04);
+
+  /* Code */
+  --dv-code-bg: #0d1117;
+  --dv-code-gutter: #484f58;
+  --dv-code-gutter-bg: #0d1117;
+  --dv-code-highlight-line: rgba(88, 166, 255, 0.1);
+}
+
+/* --- Light Theme --- */
+.docview[data-theme='light'] {
+  --dv-bg: #ffffff;
+  --dv-surface: #f6f8fa;
+  --dv-surface-raised: #ffffff;
+  --dv-border: #d0d7de;
+  --dv-border-subtle: #e1e4e8;
+  --dv-text: #1f2328;
+  --dv-text-secondary: #656d76;
+  --dv-text-muted: #8b949e;
+  --dv-accent: #0969da;
+  --dv-accent-hover: #0550ae;
+  --dv-accent-subtle: rgba(9, 105, 218, 0.08);
+  --dv-error: #cf222e;
+  --dv-warning: #9a6700;
+  --dv-page-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
+  --dv-toolbar-bg: #f6f8fa;
+  --dv-toolbar-border: #d0d7de;
+  --dv-scrollbar-thumb: #c1c8cf;
+  --dv-scrollbar-thumb-hover: #afb8c1;
+  --dv-table-header-bg: #f6f8fa;
+  --dv-table-row-hover: rgba(31, 35, 40, 0.04);
+  --dv-table-stripe: rgba(31, 35, 40, 0.02);
+  --dv-code-bg: #f6f8fa;
+  --dv-code-gutter: #8b949e;
+  --dv-code-gutter-bg: #f6f8fa;
+  --dv-code-highlight-line: rgba(9, 105, 218, 0.08);
+}
+
+
+/* ==========================================================================
+   Root Container
+   ========================================================================== */
+
+.docview {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 200px;
+  overflow: hidden;
+  background: var(--dv-bg);
+  color: var(--dv-text);
+  font-family: var(--dv-font-sans);
+  font-size: var(--dv-font-size);
+  line-height: var(--dv-line-height);
+  border-radius: var(--dv-radius);
+  border: 1px solid var(--dv-border);
+}
+
+
+/* ==========================================================================
+   Toolbar
+   ========================================================================== */
+
+.dv-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--dv-spacing-sm);
+  height: var(--dv-toolbar-height);
+  min-height: var(--dv-toolbar-height);
+  padding: 0 var(--dv-spacing);
+  background: var(--dv-toolbar-bg);
+  border-bottom: 1px solid var(--dv-toolbar-border);
+  user-select: none;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.dv-toolbar[data-position='bottom'] {
+  border-bottom: none;
+  border-top: 1px solid var(--dv-toolbar-border);
+  order: 1;
+}
+
+.dv-toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: var(--dv-spacing-xs);
+}
+
+.dv-toolbar-spacer {
+  flex: 1;
+}
+
+.dv-toolbar-separator {
+  width: 1px;
+  height: 20px;
+  background: var(--dv-border);
+  margin: 0 var(--dv-spacing-xs);
+}
+
+.dv-toolbar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: var(--dv-radius-sm);
+  background: transparent;
+  color: var(--dv-text-secondary);
+  cursor: pointer;
+  transition: background var(--dv-transition-fast), color var(--dv-transition-fast);
+  flex-shrink: 0;
+}
+
+.dv-toolbar-btn:hover {
+  background: var(--dv-accent-subtle);
+  color: var(--dv-text);
+}
+
+.dv-toolbar-btn:active {
+  background: var(--dv-border);
+}
+
+.dv-toolbar-btn[disabled] {
+  opacity: 0.35;
+  cursor: default;
+  pointer-events: none;
+}
+
+.dv-toolbar-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.dv-toolbar-label {
+  font-size: var(--dv-font-size-sm);
+  color: var(--dv-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.dv-page-input {
+  width: 48px;
+  height: 28px;
+  padding: 0 var(--dv-spacing-xs);
+  border: 1px solid var(--dv-border);
+  border-radius: var(--dv-radius-sm);
+  background: var(--dv-bg);
+  color: var(--dv-text);
+  font-family: var(--dv-font-mono);
+  font-size: var(--dv-font-size-sm);
+  text-align: center;
+  outline: none;
+}
+
+.dv-page-input:focus {
+  border-color: var(--dv-accent);
+  box-shadow: 0 0 0 2px var(--dv-accent-subtle);
+}
+
+
+/* ==========================================================================
+   Viewport (Scrollable Document Area)
+   ========================================================================== */
+
+.dv-viewport {
+  flex: 1;
+  overflow: auto;
+  position: relative;
+  background: var(--dv-bg);
+}
+
+/* Custom scrollbar */
+.dv-viewport::-webkit-scrollbar {
+  width: var(--dv-scrollbar-size);
+  height: var(--dv-scrollbar-size);
+}
+
+.dv-viewport::-webkit-scrollbar-thumb {
+  background: var(--dv-scrollbar-thumb);
+  border-radius: 999px;
+}
+
+.dv-viewport::-webkit-scrollbar-thumb:hover {
+  background: var(--dv-scrollbar-thumb-hover);
+}
+
+.dv-viewport::-webkit-scrollbar-track {
+  background: var(--dv-scrollbar-track);
+}
+
+.dv-viewport {
+  scrollbar-width: thin;
+  scrollbar-color: var(--dv-scrollbar-thumb) var(--dv-scrollbar-track);
+}
+
+
+/* ==========================================================================
+   Page Container (for paginated renderers: PDF, images, etc.)
+   ========================================================================== */
+
+.dv-pages {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--dv-spacing-lg);
+  gap: var(--dv-page-gap);
+  min-height: 100%;
+}
+
+.dv-page {
+  position: relative;
+  background: var(--dv-page-bg);
+  box-shadow: var(--dv-page-shadow);
+  border-radius: 2px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.dv-page canvas {
+  display: block;
+}
+
+.dv-page img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Text layer overlay for copy/paste over rendered pages */
+.dv-text-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  opacity: 0.25;
+  line-height: 1;
+  pointer-events: all;
+}
+
+.dv-text-layer span {
+  position: absolute;
+  white-space: pre;
+  color: transparent;
+  cursor: text;
+}
+
+.dv-text-layer span::selection {
+  background: var(--dv-accent);
+  color: transparent;
+  opacity: 0.4;
+}
+
+
+/* ==========================================================================
+   Loading & Error States
+   ========================================================================== */
+
+.dv-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--dv-spacing);
+  padding: var(--dv-spacing-xl);
+  min-height: 200px;
+  color: var(--dv-text-secondary);
+  font-size: var(--dv-font-size);
+}
+
+.dv-spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--dv-border);
+  border-top-color: var(--dv-accent);
+  border-radius: 50%;
+  animation: dv-spin 0.6s linear infinite;
+}
+
+@keyframes dv-spin {
+  to { transform: rotate(360deg); }
+}
+
+.dv-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--dv-spacing-sm);
+  padding: var(--dv-spacing-xl);
+  min-height: 200px;
+  color: var(--dv-error);
+  text-align: center;
+}
+
+.dv-error-code {
+  font-family: var(--dv-font-mono);
+  font-size: var(--dv-font-size-sm);
+  color: var(--dv-text-muted);
+}
+
+.dv-error-message {
+  font-size: var(--dv-font-size);
+  max-width: 400px;
+}
+
+
+/* ==========================================================================
+   Table Renderer (CSV/TSV)
+   ========================================================================== */
+
+.dv-table-container {
+  overflow: auto;
+  flex: 1;
+  font-size: var(--dv-font-size-sm);
+}
+
+.dv-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-family: var(--dv-font-mono);
+  font-size: var(--dv-font-size-sm);
+}
+
+.dv-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.dv-table th {
+  background: var(--dv-table-header-bg);
+  border-bottom: 2px solid var(--dv-border);
+  padding: var(--dv-spacing-sm) var(--dv-spacing);
+  text-align: left;
+  font-weight: 600;
+  color: var(--dv-text);
+  white-space: nowrap;
+  cursor: default;
+  user-select: none;
+}
+
+.dv-table th[data-sortable='true'] {
+  cursor: pointer;
+}
+
+.dv-table th[data-sortable='true']:hover {
+  background: var(--dv-surface-raised);
+}
+
+.dv-table td {
+  padding: var(--dv-spacing-xs) var(--dv-spacing);
+  border-bottom: 1px solid var(--dv-border-subtle);
+  color: var(--dv-text);
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dv-table tbody tr:nth-child(even) {
+  background: var(--dv-table-stripe);
+}
+
+.dv-table tbody tr:hover {
+  background: var(--dv-table-row-hover);
+}
+
+.dv-table-row-number {
+  color: var(--dv-text-muted);
+  min-width: 48px;
+  text-align: right;
+  padding-right: var(--dv-spacing) !important;
+  user-select: none;
+}
+
+
+/* ==========================================================================
+   Code Renderer
+   ========================================================================== */
+
+.dv-code-container {
+  display: flex;
+  flex: 1;
+  overflow: auto;
+  font-family: var(--dv-font-mono);
+  font-size: var(--dv-font-size);
+  line-height: 1.6;
+  background: var(--dv-code-bg);
+  tab-size: 2;
+}
+
+.dv-code-gutter {
+  position: sticky;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  padding: var(--dv-spacing) 0;
+  text-align: right;
+  color: var(--dv-code-gutter);
+  background: var(--dv-code-gutter-bg);
+  user-select: none;
+  flex-shrink: 0;
+  border-right: 1px solid var(--dv-border-subtle);
+  z-index: 1;
+}
+
+.dv-code-gutter-line {
+  padding: 0 var(--dv-spacing) 0 var(--dv-spacing-lg);
+  min-width: 48px;
+}
+
+.dv-code-body {
+  flex: 1;
+  padding: var(--dv-spacing);
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.dv-code-body.dv-word-wrap {
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+/* --- Built-in Syntax Highlighting (Dark) --- */
+.docview .dv-code-body .hljs-keyword,
+.docview .dv-code-body .hljs-selector-tag,
+.docview .dv-code-body .hljs-built_in,
+.docview .dv-code-body .hljs-type { color: #ff7b72; }
+
+.docview .dv-code-body .hljs-string,
+.docview .dv-code-body .hljs-addition { color: #a5d6ff; }
+
+.docview .dv-code-body .hljs-number,
+.docview .dv-code-body .hljs-literal { color: #79c0ff; }
+
+.docview .dv-code-body .hljs-comment,
+.docview .dv-code-body .hljs-quote { color: #8b949e; font-style: italic; }
+
+.docview .dv-code-body .hljs-function,
+.docview .dv-code-body .hljs-title { color: #d2a8ff; }
+
+.docview .dv-code-body .hljs-title.function_ { color: #d2a8ff; }
+.docview .dv-code-body .hljs-title.class_ { color: #f0883e; }
+
+.docview .dv-code-body .hljs-variable,
+.docview .dv-code-body .hljs-template-variable { color: #ffa657; }
+
+.docview .dv-code-body .hljs-attr,
+.docview .dv-code-body .hljs-attribute { color: #79c0ff; }
+
+.docview .dv-code-body .hljs-tag { color: #7ee787; }
+
+.docview .dv-code-body .hljs-name { color: #7ee787; }
+
+.docview .dv-code-body .hljs-regexp { color: #a5d6ff; }
+
+.docview .dv-code-body .hljs-symbol,
+.docview .dv-code-body .hljs-bullet { color: #ffa657; }
+
+.docview .dv-code-body .hljs-meta,
+.docview .dv-code-body .hljs-meta .hljs-keyword { color: #79c0ff; }
+
+.docview .dv-code-body .hljs-deletion { color: #ffa198; background: rgba(255, 129, 130, 0.1); }
+.docview .dv-code-body .hljs-addition { background: rgba(63, 185, 80, 0.1); }
+
+.docview .dv-code-body .hljs-params { color: #e6edf3; }
+
+.docview .dv-code-body .hljs-operator { color: #ff7b72; }
+
+.docview .dv-code-body .hljs-property { color: #79c0ff; }
+
+.docview .dv-code-body .hljs-punctuation { color: #8b949e; }
+
+.docview .dv-code-body .hljs-emphasis { font-style: italic; }
+.docview .dv-code-body .hljs-strong { font-weight: bold; }
+
+.docview .dv-code-body .hljs-section { color: #79c0ff; font-weight: bold; }
+
+.docview .dv-code-body .hljs-link { color: #58a6ff; text-decoration: underline; }
+
+/* --- Syntax Highlighting (Light Override) --- */
+.docview[data-theme='light'] .dv-code-body .hljs-keyword,
+.docview[data-theme='light'] .dv-code-body .hljs-selector-tag,
+.docview[data-theme='light'] .dv-code-body .hljs-built_in,
+.docview[data-theme='light'] .dv-code-body .hljs-type { color: #cf222e; }
+
+.docview[data-theme='light'] .dv-code-body .hljs-string,
+.docview[data-theme='light'] .dv-code-body .hljs-addition { color: #0a3069; }
+
+.docview[data-theme='light'] .dv-code-body .hljs-number,
+.docview[data-theme='light'] .dv-code-body .hljs-literal { color: #0550ae; }
+
+.docview[data-theme='light'] .dv-code-body .hljs-comment,
+.docview[data-theme='light'] .dv-code-body .hljs-quote { color: #6e7781; font-style: italic; }
+
+.docview[data-theme='light'] .dv-code-body .hljs-function,
+.docview[data-theme='light'] .dv-code-body .hljs-title { color: #8250df; }
+
+.docview[data-theme='light'] .dv-code-body .hljs-title.function_ { color: #8250df; }
+.docview[data-theme='light'] .dv-code-body .hljs-title.class_ { color: #953800; }
+
+.docview[data-theme='light'] .dv-code-body .hljs-variable,
+.docview[data-theme='light'] .dv-code-body .hljs-template-variable { color: #953800; }
+
+.docview[data-theme='light'] .dv-code-body .hljs-attr,
+.docview[data-theme='light'] .dv-code-body .hljs-attribute { color: #0550ae; }
+
+.docview[data-theme='light'] .dv-code-body .hljs-tag { color: #116329; }
+.docview[data-theme='light'] .dv-code-body .hljs-name { color: #116329; }
+
+.docview[data-theme='light'] .dv-code-body .hljs-regexp { color: #0a3069; }
+
+.docview[data-theme='light'] .dv-code-body .hljs-symbol,
+.docview[data-theme='light'] .dv-code-body .hljs-bullet { color: #953800; }
+
+.docview[data-theme='light'] .dv-code-body .hljs-meta,
+.docview[data-theme='light'] .dv-code-body .hljs-meta .hljs-keyword { color: #0550ae; }
+
+.docview[data-theme='light'] .dv-code-body .hljs-deletion { color: #82071e; background: rgba(255, 129, 130, 0.1); }
+.docview[data-theme='light'] .dv-code-body .hljs-addition { background: rgba(63, 185, 80, 0.1); }
+
+.docview[data-theme='light'] .dv-code-body .hljs-params { color: #1f2328; }
+.docview[data-theme='light'] .dv-code-body .hljs-operator { color: #cf222e; }
+.docview[data-theme='light'] .dv-code-body .hljs-property { color: #0550ae; }
+.docview[data-theme='light'] .dv-code-body .hljs-punctuation { color: #6e7781; }
+.docview[data-theme='light'] .dv-code-body .hljs-section { color: #0550ae; font-weight: bold; }
+.docview[data-theme='light'] .dv-code-body .hljs-link { color: #0969da; text-decoration: underline; }
+
+
+/* ==========================================================================
+   Text Renderer
+   ========================================================================== */
+
+.dv-text-container {
+  flex: 1;
+  overflow: auto;
+  padding: var(--dv-spacing-lg);
+  font-family: var(--dv-font-sans);
+  font-size: var(--dv-font-size-lg);
+  line-height: 1.7;
+  color: var(--dv-text);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  max-width: 72ch;
+  margin: 0 auto;
+}
+
+.dv-text-container.dv-monospace {
+  font-family: var(--dv-font-mono);
+  font-size: var(--dv-font-size);
+  max-width: none;
+}
+
+
+/* ==========================================================================
+   EPUB Renderer
+   ========================================================================== */
+
+.dv-epub-container {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.dv-epub-container iframe {
+  border: none;
+  width: 100%;
+  height: 100%;
+}
+
+
+/* ==========================================================================
+   DOCX Renderer
+   ========================================================================== */
+
+.dv-docx-container {
+  flex: 1;
+  overflow: auto;
+  padding: var(--dv-spacing-lg);
+  background: var(--dv-bg);
+}
+
+/* docx-preview renders into a wrapper div — scope some resets */
+.dv-docx-container .docx-wrapper {
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+.dv-docx-container .docx-wrapper > section.docx {
+  background: var(--dv-page-bg) !important;
+  box-shadow: var(--dv-page-shadow) !important;
+  margin: 0 auto var(--dv-page-gap) !important;
+  border-radius: 2px;
+}
+
+
+/* ==========================================================================
+   Page Image Renderer (browse pages / pre-rendered)
+   ========================================================================== */
+
+.dv-browse-page {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dv-browse-page img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  background: var(--dv-page-bg);
+  box-shadow: var(--dv-page-shadow);
+  border-radius: 2px;
+}
+
+.dv-browse-page-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--dv-surface);
+  border-radius: 2px;
+  color: var(--dv-text-muted);
+  font-size: var(--dv-font-size-sm);
+}

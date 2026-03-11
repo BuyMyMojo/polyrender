@@ -1,0 +1,25 @@
+{
+  "name": "@docview/example-vanilla",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "node build.js",
+    "serve": "node build.js && npx -y serve dist",
+    "dev": "node build.js --watch"
+  },
+  "dependencies": {
+    "@docview/core": "workspace:*",
+    "pdfjs-dist": ">=4.0.0",
+    "epubjs": ">=0.3.0",
+    "docx-preview": ">=0.3.0",
+    "papaparse": ">=5.0.0",
+    "highlight.js": ">=11.0.0",
+    "jszip": ">=3.0.0",
+    "xlsx": ">=0.18.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "esbuild": "^0.25.0"
+  }
+}

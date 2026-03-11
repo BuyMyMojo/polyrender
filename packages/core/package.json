@@ -1,0 +1,80 @@
+{
+  "name": "@docview/core",
+  "version": "0.1.0",
+  "description": "Framework-agnostic universal document renderer — PDF, EPUB, DOCX, CSV, code, and plain text with optional chunked/paged loading",
+  "license": "Zlib",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./styles.css": "./dist/styles.css"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "tsup": "^8.0.0",
+    "typescript": "^5.5.0"
+  },
+  "peerDependencies": {
+    "pdfjs-dist": ">=4.0.0",
+    "epubjs": ">=0.3.0",
+    "docx-preview": ">=0.3.0",
+    "papaparse": ">=5.0.0",
+    "highlight.js": ">=11.0.0",
+    "jszip": ">=3.0.0",
+    "xlsx": ">=0.18.0"
+  },
+  "peerDependenciesMeta": {
+    "pdfjs-dist": {
+      "optional": true
+    },
+    "epubjs": {
+      "optional": true
+    },
+    "docx-preview": {
+      "optional": true
+    },
+    "papaparse": {
+      "optional": true
+    },
+    "highlight.js": {
+      "optional": true
+    },
+    "jszip": {
+      "optional": true
+    },
+    "xlsx": {
+      "optional": true
+    }
+  },
+  "keywords": [
+    "pdf",
+    "epub",
+    "docx",
+    "csv",
+    "document",
+    "viewer",
+    "renderer",
+    "reader",
+    "chunked",
+    "framework-agnostic"
+  ]
+}
