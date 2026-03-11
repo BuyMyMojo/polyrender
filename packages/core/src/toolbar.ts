@@ -10,6 +10,7 @@ export interface ToolbarActions {
   onFitWidth(): void
   onFullscreen(): void
   onDownload?(): void
+  onWrapToggle?(): void
 }
 
 export interface ToolbarHandle {
@@ -17,6 +18,8 @@ export interface ToolbarHandle {
   element: HTMLElement
   /** Update displayed state (page, total, zoom). */
   updateState(state: PolyRenderState): void
+  /** Set the active (pressed) state of the wrap toggle button. */
+  setWrapActive(active: boolean): void
   /** Destroy and clean up listeners. */
   destroy(): void
 }
@@ -40,6 +43,7 @@ export function createToolbar(
   let zoomLabel: HTMLSpanElement | null = null
   let prevBtn: HTMLButtonElement | null = null
   let nextBtn: HTMLButtonElement | null = null
+  let wrapBtn: HTMLButtonElement | null = null
 
   // --- Navigation group ---
   if (config.navigation !== false) {
@@ -112,6 +116,15 @@ export function createToolbar(
     fitWidthBtn.addEventListener('click', actions.onFitWidth)
 
     zoomGroup.append(zoomOutBtn, zoomLabel, zoomInBtn, fitWidthBtn)
+
+    if (actions.onWrapToggle && config.wrapToggle !== false) {
+      wrapBtn = el('button', 'dv-toolbar-btn')
+      wrapBtn.title = 'Toggle word wrap / fit pages'
+      wrapBtn.appendChild(svgIcon(icons.wrapToggle))
+      wrapBtn.addEventListener('click', actions.onWrapToggle)
+      zoomGroup.appendChild(wrapBtn)
+    }
+
     toolbar.appendChild(zoomGroup)
   }
 
@@ -142,6 +155,14 @@ export function createToolbar(
       if (zoomLabel) zoomLabel.textContent = `${Math.round(state.zoom * 100)}%`
       if (prevBtn) prevBtn.disabled = state.currentPage <= 1
       if (nextBtn) nextBtn.disabled = state.currentPage >= state.totalPages
+    },
+    setWrapActive(active: boolean) {
+      if (wrapBtn) {
+        wrapBtn.classList.toggle('dv-toolbar-btn--active', active)
+        wrapBtn.title = active
+          ? 'Disable word wrap / fit pages'
+          : 'Toggle word wrap / fit pages'
+      }
     },
     destroy() {
       toolbar.remove()

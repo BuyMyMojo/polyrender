@@ -29,6 +29,7 @@ export type {
   EpubOptions,
   OdtOptions,
   OdsOptions,
+  ComicOptions,
   ToolbarConfig,
 
   // State & Info
@@ -68,6 +69,7 @@ export {
   CsvRenderer,
   CodeRenderer,
   TextRenderer,
+  ComicRenderer,
 } from './renderers/index.js'
 
 // Utilities (for custom renderer authors)

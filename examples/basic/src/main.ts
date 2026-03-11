@@ -29,6 +29,11 @@ fileInput.addEventListener('change', () => {
     pdf: {
       workerSrc: pdfjsWorker,
     },
+    // Comic book archives (.cbz, .cbr, .cb7, .cbt)
+    comic: {
+      jxlFallback: true,  // JPEG XL decoding via @jsquash/jxl
+      tiffSupport: true,  // TIFF decoding via utif
+    },
     onReady: (info) => {
       console.log(`Loaded "${file.name}" — ${info.pageCount} page(s), format: ${info.format}`)
     },

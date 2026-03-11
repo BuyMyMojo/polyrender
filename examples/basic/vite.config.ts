@@ -17,6 +17,9 @@ function resolvePeerDeps(): Plugin {
     'highlight.js',
     'jszip',
     'xlsx',
+    'node-unrar-js',
+    '@jsquash/jxl',
+    'utif',
   ]
 
   // Build a code snippet that maps module names → static imports.
@@ -25,9 +28,14 @@ function resolvePeerDeps(): Plugin {
     .map((d) => `      case '${d}': return import('${d}').then(m => m.default || m);`)
     .join('\n')
 
+  // 7z-wasm's default ESM build imports Node's 'module' built-in, so we
+  // redirect to its UMD build which is browser-safe.
+  const sevenZipCase = `      case '7z-wasm': return import('7z-wasm/7zz.umd.js').then(m => m.default || m);`
+
   const replacement = [
     '(async (name) => { switch(name) {',
     cases,
+    sevenZipCase,
     '      default: throw new Error(`Unknown peer dep: ${name}`);',
     '    }})(moduleName)',
   ].join('\n')
@@ -53,6 +61,13 @@ function resolvePeerDeps(): Plugin {
 
 export default defineConfig({
   plugins: [resolvePeerDeps()],
+  // @jsquash/jxl ships a Web Worker whose internal format is "iife".
+  // Forcing workers to ES module format prevents the Rollup error:
+  // "Invalid value 'iife' for option 'worker.format' — UMD and IIFE output
+  //  formats are not supported for code-splitting builds."
+  worker: {
+    format: 'es',
+  },
   optimizeDeps: {
     include: [
       'pdfjs-dist',
@@ -62,6 +77,10 @@ export default defineConfig({
       'highlight.js',
       'jszip',
       'xlsx',
+      'node-unrar-js',
+      '7z-wasm/7zz.umd.js',
+      '@jsquash/jxl',
+      'utif',
     ],
   },
 })

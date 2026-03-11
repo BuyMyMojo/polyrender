@@ -16,6 +16,28 @@ import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const isWatch = process.argv.includes("--watch");
 
+/**
+ * Plugin that provides empty shims for Node.js built-in modules when bundling
+ * for the browser. Some WASM-based packages (e.g. 7z-wasm) include conditional
+ * Node code paths that are never reached in a browser, but esbuild still tries
+ * to resolve the `require("fs")` / `require("crypto")` calls at bundle time.
+ */
+const shimNodeBuiltins = {
+    name: "shim-node-builtins",
+    setup(build) {
+        const builtins =
+            /^(fs|crypto|path|os|module|stream|util|events|buffer|assert|http|https|net|tls|url|zlib|readline|child_process|worker_threads|perf_hooks)$/;
+        build.onResolve({ filter: builtins }, (args) => ({
+            path: args.path,
+            namespace: "node-builtin-shim",
+        }));
+        build.onLoad({ filter: /.*/, namespace: "node-builtin-shim" }, () => ({
+            contents: "module.exports = {}",
+            loader: "js",
+        }));
+    },
+};
+
 /** Plugin to resolve @polyrender/core's dynamic peer-dep imports. */
 const resolvePeerDeps = {
     name: "resolve-peer-deps",
@@ -37,7 +59,13 @@ const resolvePeerDeps = {
                     "highlight.js",
                     "jszip",
                     "xlsx",
+                    "node-unrar-js",
+                    "@jsquash/jxl",
+                    "utif",
                 ];
+                // 7z-wasm's default ESM build imports Node's 'module' built-in,
+                // so we redirect to its UMD build which is browser-safe.
+                const sevenZipCase = `      case '7z-wasm': return import('7z-wasm/7zz.umd.js').then(m => m.default || m);`;
                 const cases = peerDeps
                     .map(
                         (d) =>
@@ -48,6 +76,7 @@ const resolvePeerDeps = {
                 const replacement = [
                     "(async (name) => { switch(name) {",
                     cases,
+                    sevenZipCase,
                     "      default: throw new Error(`Unknown peer dep: ${name}`);",
                     "    }})(moduleName)",
                 ].join("\n");
@@ -100,10 +129,11 @@ const buildOptions = {
     entryPoints: [resolve(__dirname, "src/main.ts")],
     bundle: true,
     format: "esm",
+    platform: "browser",
     outdir: distDir,
     sourcemap: true,
     target: "es2022",
-    plugins: [resolvePeerDeps],
+    plugins: [shimNodeBuiltins, resolvePeerDeps],
     logLevel: "info",
 };
 

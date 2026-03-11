@@ -55,6 +55,7 @@ export class PolyRender {
   private root: HTMLElement
   private listeners = new Map<string, Set<(data: unknown) => void>>()
   private destroyed = false
+  private wrapActive = false
 
   constructor(container: HTMLElement, options: PolyRenderOptions) {
     ensureRegistered()
@@ -243,6 +244,15 @@ export class PolyRender {
       this.emit('error', err)
     }
 
+    // Formats whose renderers support the wrap/fit toggle
+    const supportsWrap =
+      rendererFormat === 'code' ||
+      rendererFormat === 'text' ||
+      rendererFormat === 'comic'
+
+    // Text renderer starts with wrap on (pre-wrap by default in CSS)
+    this.wrapActive = rendererFormat === 'text'
+
     // Create toolbar (before renderer mount, so it appears above the viewport)
     const toolbarOpt = this.options.toolbar
     if (toolbarOpt !== false) {
@@ -258,7 +268,12 @@ export class PolyRender {
         onZoomOut: () => this.setZoom(this.getZoom() / 1.2),
         onFitWidth: () => this.setZoom('fit-width'),
         onFullscreen: () => this.toggleFullscreen(),
+        onWrapToggle: supportsWrap ? () => this.doWrapToggle() : undefined,
       }, this.getState())
+
+      if (supportsWrap) {
+        this.toolbar.setWrapActive(this.wrapActive)
+      }
 
       if (config.position === 'bottom') {
         this.root.appendChild(this.toolbar.element)
@@ -287,6 +302,12 @@ export class PolyRender {
 
   private updateToolbar(): void {
     this.toolbar?.updateState(this.getState())
+  }
+
+  private doWrapToggle(): void {
+    if (!this.renderer?.toggleWrap) return
+    this.wrapActive = this.renderer.toggleWrap()
+    this.toolbar?.setWrapActive(this.wrapActive)
   }
 
   private toggleFullscreen(): void {

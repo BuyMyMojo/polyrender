@@ -21,9 +21,9 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.cjs"
     },
     "./styles.css": "./dist/styles.css"
   },
@@ -52,7 +52,11 @@
     "papaparse": ">=5.0.0",
     "highlight.js": ">=11.0.0",
     "jszip": ">=3.0.0",
-    "xlsx": ">=0.18.0"
+    "xlsx": ">=0.18.0",
+    "node-unrar-js": ">=2.0.0",
+    "7z-wasm": ">=1.0.0",
+    "utif": ">=3.0.0",
+    "@jsquash/jxl": ">=1.0.0"
   },
   "peerDependenciesMeta": {
     "pdfjs-dist": {
@@ -74,6 +78,18 @@
       "optional": true
     },
     "xlsx": {
+      "optional": true
+    },
+    "node-unrar-js": {
+      "optional": true
+    },
+    "7z-wasm": {
+      "optional": true
+    },
+    "utif": {
+      "optional": true
+    },
+    "@jsquash/jxl": {
       "optional": true
     }
   },

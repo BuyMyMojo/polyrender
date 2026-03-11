@@ -10,6 +10,8 @@ export class TextRenderer extends BaseRenderer {
   readonly format: DocumentFormat = 'text'
 
   private textContainer!: HTMLElement
+  // Text starts wrapped (pre-wrap in CSS). toggled = wrap is OFF.
+  private wrapDisabled = false
 
   protected async onMount(viewport: HTMLElement, options: PolyRenderOptions): Promise<void> {
     this.showLoading('Loading text…')
@@ -61,6 +63,14 @@ export class TextRenderer extends BaseRenderer {
       return source.url.split('/').pop()?.split('?')[0]
     }
     return undefined
+  }
+
+  // Returns true when wrap is active (the "on" state), false when off.
+  // Text starts wrapped, so the initial active state is true.
+  toggleWrap(): boolean {
+    this.wrapDisabled = !this.wrapDisabled
+    this.textContainer.classList.toggle('dv-no-wrap', this.wrapDisabled)
+    return !this.wrapDisabled
   }
 
   protected onDestroy(): void {

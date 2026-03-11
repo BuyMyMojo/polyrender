@@ -28,6 +28,11 @@ fileInput.addEventListener('change', () => {
       // In the bundled output, the worker is a sibling file in dist/
       workerSrc: './pdf.worker.min.mjs',
     },
+    // Comic book archives (.cbz, .cbr, .cb7, .cbt)
+    comic: {
+      jxlFallback: true,  // JPEG XL decoding via @jsquash/jxl
+      tiffSupport: true,  // TIFF decoding via utif
+    },
     onReady: (info) => {
       console.log(`Loaded "${file.name}" — ${info.pageCount} page(s), format: ${info.format}`)
     },

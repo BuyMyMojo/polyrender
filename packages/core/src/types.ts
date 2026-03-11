@@ -194,6 +194,7 @@ export interface PolyRenderOptions {
   epub?: EpubOptions
   odt?: OdtOptions
   ods?: OdsOptions
+  comic?: ComicOptions
 }
 
 export interface PdfOptions {
@@ -254,6 +255,28 @@ export interface OdsOptions {
   header?: boolean
 }
 
+export interface ComicOptions {
+  /**
+   * Image formats to include from the archive. Defaults to all natively
+   * supported browser formats (png, jpg, gif, bmp, webp, avif).
+   * Add 'tiff' together with `tiffSupport: true` to enable TIFF decoding.
+   * Add 'jxl' together with `jxlFallback: true` to enable JPEG XL decoding.
+   */
+  imageFormats?: Array<'png' | 'jpg' | 'gif' | 'bmp' | 'webp' | 'avif' | 'tiff' | 'jxl'>
+  /**
+   * Enable JPEG XL fallback decoding via the `@jsquash/jxl` peer dependency.
+   * Install it with: npm install @jsquash/jxl
+   * Default: false.
+   */
+  jxlFallback?: boolean
+  /**
+   * Enable TIFF image decoding via the `utif` peer dependency.
+   * Install it with: npm install utif
+   * Default: false.
+   */
+  tiffSupport?: boolean
+}
+
 export interface ToolbarConfig {
   /** Show page navigation controls. Default true. */
   navigation?: boolean
@@ -267,6 +290,9 @@ export interface ToolbarConfig {
   fullscreen?: boolean
   /** Toolbar position. Default 'top'. */
   position?: 'top' | 'bottom'
+  /** Show word-wrap / fit-to-width toggle button. Shown automatically for
+   *  code, text, and comic formats; set to `false` to hide it explicitly. */
+  wrapToggle?: boolean
 }
 
 
@@ -352,6 +378,7 @@ export type DocumentFormat =
   | 'html'
   | 'json'
   | 'xml'
+  | 'comic'       // comic book archive (.cbz, .cbr, .cb7, .cbt)
   | 'pages'       // pre-rendered page images (no original document)
   | 'chunked-pdf' // chunked PDF streaming
   | (string & {})  // open union — consumers can register custom formats
@@ -398,6 +425,13 @@ export interface Renderer {
 
   /** Get current zoom as a numeric scale factor. */
   getZoom(): number
+
+  /**
+   * Toggle word wrap (text/code formats) or fit-to-width mode (comic format).
+   * Called by the toolbar wrap-toggle button.
+   * Returns `true` when the feature is now active, `false` when inactive.
+   */
+  toggleWrap?(): boolean
 
   /** Perform a text search within the document. Returns match count. */
   search?(query: string): Promise<number>

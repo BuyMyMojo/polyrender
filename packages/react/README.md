@@ -2,7 +2,7 @@
 
 React component and hook for rendering documents in the browser. A thin wrapper around [`@polyrender/core`](https://www.npmjs.com/package/@polyrender/core) that handles React lifecycle, cleanup, and ref-based imperative control.
 
-Supports PDF, EPUB, DOCX, ODT, ODS, CSV/TSV, source code, and plain text.
+Supports PDF, EPUB, DOCX, ODT, ODS, CSV/TSV, source code, plain text, and comic book archives (.cbz, .cbr, .cb7, .cbt).
 
 ## Installation
 
@@ -16,10 +16,18 @@ Install peer dependencies only for the formats you need:
 npm install pdfjs-dist       # PDF
 npm install epubjs           # EPUB
 npm install docx-preview     # DOCX
-npm install jszip            # ODT
+npm install jszip            # ODT, CBZ comic archives
 npm install xlsx             # ODS
 npm install papaparse        # CSV/TSV
 npm install highlight.js     # Code, Markdown, JSON, XML/HTML
+
+# Comic book archives — additional optional backends:
+npm install node-unrar-js    # CBR (.cbr, RAR-compressed comics)
+npm install 7z-wasm          # CB7 (.cb7, 7-Zip-compressed comics)
+
+# Comic book archives — optional exotic image format decoders:
+npm install @jsquash/jxl     # JPEG XL images inside archives
+npm install utif             # TIFF images inside archives
 ```
 
 ## Quick Start
@@ -56,7 +64,7 @@ Drop-in component. Props mirror `PolyRenderOptions` from `@polyrender/core`.
 | `style` | `React.CSSProperties` | — | Styles for the wrapper div (set width/height here) |
 | `initialPage` | `number` | `1` | Starting page |
 | `zoom` | `number \| 'fit-width' \| 'fit-page' \| 'auto'` | — | Initial zoom |
-| `toolbar` | `boolean \| ToolbarConfig` | `true` | Toolbar visibility/config |
+| `toolbar` | `boolean \| ToolbarConfig` | `true` | Toolbar visibility/config. `ToolbarConfig` fields: `navigation`, `zoom`, `wrapToggle`, `fullscreen`, `info`, `download`, `position` |
 | `showPageNumbers` | `boolean` | — | Show page numbers |
 | `onReady` | `(info: DocumentInfo) => void` | — | Fired when document is loaded |
 | `onPageChange` | `(page, total) => void` | — | Fired on page navigation |
@@ -67,6 +75,7 @@ Drop-in component. Props mirror `PolyRenderOptions` from `@polyrender/core`.
 | `epub` | `EpubOptions` | — | EPUB-specific options |
 | `code` | `CodeOptions` | — | Code-specific options |
 | `csv` | `CsvOptions` | — | CSV/TSV-specific options |
+| `comic` | `ComicOptions` | — | Comic archive options (JXL/TIFF decoders, format filter) |
 
 ### Imperative Control via Ref
 

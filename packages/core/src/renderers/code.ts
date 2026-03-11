@@ -18,7 +18,9 @@ export class CodeRenderer extends BaseRenderer {
   readonly format: DocumentFormat = 'code'
 
   private codeContainer!: HTMLElement
+  private codeBody!: HTMLElement
   private hljs: HighlightJS | null = null
+  private wordWrap = false
 
   protected async onMount(viewport: HTMLElement, options: PolyRenderOptions): Promise<void> {
     this.showLoading('Loading file…')
@@ -72,6 +74,7 @@ export class CodeRenderer extends BaseRenderer {
     }
 
     // Code body
+    this.wordWrap = wordWrap
     const body = el('pre', `dv-code-body${wordWrap ? ' dv-word-wrap' : ''}`)
     const codeEl = document.createElement('code')
     if (language) codeEl.className = `language-${language}`
@@ -81,6 +84,7 @@ export class CodeRenderer extends BaseRenderer {
     }
     body.appendChild(codeEl)
     this.codeContainer.appendChild(body)
+    this.codeBody = body
 
     this.setReady({
       format: 'code',
@@ -138,6 +142,12 @@ export class CodeRenderer extends BaseRenderer {
     if ('filename' in source && source.filename) return source.filename
     if (source.type === 'url') return source.url.split('/').pop()?.split('?')[0]
     return undefined
+  }
+
+  toggleWrap(): boolean {
+    this.wordWrap = !this.wordWrap
+    this.codeBody.classList.toggle('dv-word-wrap', this.wordWrap)
+    return this.wordWrap
   }
 
   protected onDestroy(): void {

@@ -45,6 +45,7 @@ export const icons = {
   fitWidth: 'M1 4h14M1 12h14M4 1v3M4 12v3M12 1v3M12 12v3',
   fullscreen: 'M2 5V2h3M11 2h3v3M14 11v3h-3M5 14H2v-3',
   download: 'M8 2v8M4 7l4 4 4-4M3 13h10',
+  wrapToggle: 'M2 4h12M2 9h6M13 7v2a2 2 0 0 1-2 2H5m2-2L5 11l2 2',
 } as const
 
 /** Remove all child nodes from an element. */
@@ -58,6 +59,12 @@ export function clearElement(el: HTMLElement): void {
 // ---------------------------------------------------------------------------
 
 const EXTENSION_MAP: Record<string, DocumentFormat> = {
+  // Comic book archives
+  cbz: 'comic',
+  cbr: 'comic',
+  cb7: 'comic',
+  cbt: 'comic',
+  cba: 'comic',
   pdf: 'pdf',
   epub: 'epub',
   docx: 'docx',
@@ -97,6 +104,13 @@ const EXTENSION_MAP: Record<string, DocumentFormat> = {
 }
 
 const MIME_MAP: Record<string, DocumentFormat> = {
+  // Comic book archives
+  'application/vnd.comicbook+zip': 'comic',
+  'application/vnd.comicbook-rar': 'comic',
+  'application/x-cbr': 'comic',
+  'application/x-cbz': 'comic',
+  'application/x-cb7': 'comic',
+  'application/x-cbt': 'comic',
   'application/pdf': 'pdf',
   'application/epub+zip': 'epub',
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'docx',

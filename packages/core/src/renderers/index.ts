@@ -8,6 +8,7 @@ export { OdsRenderer } from './ods.js'
 export { CsvRenderer } from './csv.js'
 export { CodeRenderer } from './code.js'
 export { TextRenderer } from './text.js'
+export { ComicRenderer } from './comic.js'
 
 import { registry } from '../registry.js'
 import { PdfRenderer } from './pdf.js'
@@ -20,6 +21,7 @@ import { OdsRenderer } from './ods.js'
 import { CsvRenderer } from './csv.js'
 import { CodeRenderer } from './code.js'
 import { TextRenderer } from './text.js'
+import { ComicRenderer } from './comic.js'
 
 /**
  * Register all built-in renderers with the format registry.
@@ -36,4 +38,5 @@ export function registerBuiltinRenderers(): void {
   registry.register('csv', () => new CsvRenderer())
   registry.register('code', () => new CodeRenderer())
   registry.register('text', () => new TextRenderer())
+  registry.register('comic', () => new ComicRenderer())
 }

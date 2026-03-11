@@ -28,3 +28,5 @@ pnpm preview
 - Auto-detecting the document format from the filename
 - Rendering with the built-in dark-themed toolbar
 - Configuring the `pdfjs-dist` worker URL via Vite's `?url` import
+- Comic book archives (`.cbz`, `.cbr`, `.cb7`, `.cbt`) with JPEG XL and TIFF support enabled via `@jsquash/jxl` and `utif`
+- Word wrap / fit-to-width toolbar toggle (active for code, text, and comic files)

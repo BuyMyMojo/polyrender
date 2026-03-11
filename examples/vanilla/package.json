@@ -16,7 +16,11 @@
     "papaparse": ">=5.0.0",
     "highlight.js": ">=11.0.0",
     "jszip": ">=3.0.0",
-    "xlsx": ">=0.18.0"
+    "xlsx": ">=0.18.0",
+    "node-unrar-js": ">=2.0.0",
+    "7z-wasm": ">=1.0.0",
+    "@jsquash/jxl": ">=1.0.0",
+    "utif": ">=3.0.0"
   },
   "devDependencies": {
     "typescript": "^5.5.0",

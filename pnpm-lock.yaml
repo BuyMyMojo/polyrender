@@ -14,6 +14,12 @@ importers:
 
   examples/basic:
     dependencies:
+      7z-wasm:
+        specifier: '>=1.0.0'
+        version: 1.2.0
+      '@jsquash/jxl':
+        specifier: '>=1.0.0'
+        version: 1.3.0
       '@polyrender/core':
         specifier: workspace:*
         version: link:../../packages/core
@@ -29,12 +35,18 @@ importers:
       jszip:
         specifier: '>=3.0.0'
         version: 3.10.1
+      node-unrar-js:
+        specifier: '>=2.0.0'
+        version: 2.0.2
       papaparse:
         specifier: '>=5.0.0'
         version: 5.5.3
       pdfjs-dist:
         specifier: '>=4.0.0'
         version: 5.5.207
+      utif:
+        specifier: '>=3.0.0'
+        version: 3.1.0
       xlsx:
         specifier: '>=0.18.0'
         version: 0.18.5
@@ -48,6 +60,12 @@ importers:
 
   examples/vanilla:
     dependencies:
+      7z-wasm:
+        specifier: '>=1.0.0'
+        version: 1.2.0
+      '@jsquash/jxl':
+        specifier: '>=1.0.0'
+        version: 1.3.0
       '@polyrender/core':
         specifier: workspace:*
         version: link:../../packages/core
@@ -63,12 +81,18 @@ importers:
       jszip:
         specifier: '>=3.0.0'
         version: 3.10.1
+      node-unrar-js:
+        specifier: '>=2.0.0'
+        version: 2.0.2
       papaparse:
         specifier: '>=5.0.0'
         version: 5.5.3
       pdfjs-dist:
         specifier: '>=4.0.0'
         version: 5.5.207
+      utif:
+        specifier: '>=3.0.0'
+        version: 3.1.0
       xlsx:
         specifier: '>=0.18.0'
         version: 0.18.5
@@ -82,6 +106,12 @@ importers:
 
   packages/core:
     dependencies:
+      7z-wasm:
+        specifier: '>=1.0.0'
+        version: 1.2.0
+      '@jsquash/jxl':
+        specifier: '>=1.0.0'
+        version: 1.3.0
       docx-preview:
         specifier: '>=0.3.0'
         version: 0.3.7
@@ -94,12 +124,18 @@ importers:
       jszip:
         specifier: '>=3.0.0'
         version: 3.10.1
+      node-unrar-js:
+        specifier: '>=2.0.0'
+        version: 2.0.2
       papaparse:
         specifier: '>=5.0.0'
         version: 5.5.3
       pdfjs-dist:
         specifier: '>=4.0.0'
         version: 5.5.207
+      utif:
+        specifier: '>=3.0.0'
+        version: 3.1.0
       xlsx:
         specifier: '>=0.18.0'
         version: 0.18.5
@@ -137,6 +173,11 @@ importers:
         version: 5.9.3
 
 packages:
+
+  7z-wasm@1.2.0:
+    resolution: {integrity: sha512-AZjtWXFleAe5nQ27JYISs70cICjO0zZr4LU45I9pXKcrhG0qiEWgq3Vjwr9JHHihFLuqgc7uSHYVn/z3vXCjdw==}
+    engines: {node: '>=8.0.0'}
+    hasBin: true
 
   '@esbuild/aix-ppc64@0.25.12':
     resolution: {integrity: sha512-Hhmwd6CInZ3dwpuGTF8fJG6yoWmsToE+vYgD4nytZVxcu1ulHpUQRAB1UJ8+N1Am3Mz4+xOByoQoSZf4D+CpkA==}
@@ -462,6 +503,9 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
+
+  '@jsquash/jxl@1.3.0':
+    resolution: {integrity: sha512-IVOPTneyOd9eBAuow+FnCYIP6wkIc7CjrCDnZGiqAPyJ63vMVxv3zoWiucGiZVh6u9vi/l40AkcS9QwkoVSAqA==}
 
   '@napi-rs/canvas-android-arm64@0.1.96':
     resolution: {integrity: sha512-ew1sPrN3dGdZ3L4FoohPfnjq0f9/Jk7o+wP7HkQZokcXgIUD6FIyICEWGhMYzv53j63wUcPvZeAwgewX58/egg==}
@@ -905,6 +949,10 @@ packages:
   node-readable-to-web-readable-stream@0.4.2:
     resolution: {integrity: sha512-/cMZNI34v//jUTrI+UIo4ieHAB5EZRY/+7OmXZgBxaWBMcW2tGdceIw06RFxWxrKZ5Jp3sI2i5TsRo+CBhtVLQ==}
 
+  node-unrar-js@2.0.2:
+    resolution: {integrity: sha512-hLNmoJzqaKJnod8yiTVGe9hnlNRHotUi0CreSv/8HtfRi/3JnRC8DvsmKfeGGguRjTEulhZK6zXX5PXoVuDZ2w==}
+    engines: {node: '>=10.0.0'}
+
   object-assign@4.1.1:
     resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}
     engines: {node: '>=0.10.0'}
@@ -979,6 +1027,10 @@ packages:
   readdirp@4.1.2:
     resolution: {integrity: sha512-GDhwkLfywWL2s6vEjyhri+eXmfH6j1L7JE27WhqLeYzoh/A3DBaYGEj2H/HFZCn/kMfim73FXxEJTw06WtxQwg==}
     engines: {node: '>= 14.18.0'}
+
+  readline-sync@1.4.10:
+    resolution: {integrity: sha512-gNva8/6UAe8QYepIQH/jQ2qn91Qj0B9sYjMBBs3QOB8F2CXcKgLxQaJRP76sWVRQt+QU+8fAkCbCvjjMFu7Ycw==}
+    engines: {node: '>= 0.8.0'}
 
   resolve-from@5.0.0:
     resolution: {integrity: sha512-qYg9KP24dD5qka9J47d0aVky0N+b4fTU89LN9iDnjB5waksiC49rvMB0PrUJQGoTmH50XPiqOvAjDfaijGxYZw==}
@@ -1069,6 +1121,9 @@ packages:
   ufo@1.6.3:
     resolution: {integrity: sha512-yDJTmhydvl5lJzBmy/hyOAA0d+aqCBuwl818haVdYCRrWV84o7YyeVm4QlVHStqNrrJSTb6jKuFAVqAFsr+K3Q==}
 
+  utif@3.1.0:
+    resolution: {integrity: sha512-WEo4D/xOvFW53K5f5QTaTbbiORcm2/pCL9P6qmJnup+17eYfKaEhDeX9PeQkuyEoIxlbGklDuGl8xwuXYMrrXQ==}
+
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
@@ -1112,6 +1167,9 @@ packages:
       yaml:
         optional: true
 
+  wasm-feature-detect@1.8.0:
+    resolution: {integrity: sha512-zksaLKM2fVlnB5jQQDqKXXwYHLQUVH9es+5TOOHwGOVJOCeRBCiPjwSg+3tN2AdTCzjgli4jijCH290kXb/zWQ==}
+
   wmf@1.0.2:
     resolution: {integrity: sha512-/p9K7bEh0Dj6WbXg4JG0xvLQmIadrner1bi45VMJTfnbVHsc7yIajZyoSoK60/dtVBs12Fm6WkUI5/3WAVsNMw==}
     engines: {node: '>=0.8'}
@@ -1126,6 +1184,10 @@ packages:
     hasBin: true
 
 snapshots:
+
+  7z-wasm@1.2.0:
+    dependencies:
+      readline-sync: 1.4.10
 
   '@esbuild/aix-ppc64@0.25.12':
     optional: true
@@ -1296,6 +1358,10 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
+
+  '@jsquash/jxl@1.3.0':
+    dependencies:
+      wasm-feature-detect: 1.8.0
 
   '@napi-rs/canvas-android-arm64@0.1.96':
     optional: true
@@ -1680,6 +1746,8 @@ snapshots:
   node-readable-to-web-readable-stream@0.4.2:
     optional: true
 
+  node-unrar-js@2.0.2: {}
+
   object-assign@4.1.1: {}
 
   pako@1.0.11: {}
@@ -1742,6 +1810,8 @@ snapshots:
       util-deprecate: 1.0.2
 
   readdirp@4.1.2: {}
+
+  readline-sync@1.4.10: {}
 
   resolve-from@5.0.0: {}
 
@@ -1859,6 +1929,10 @@ snapshots:
 
   ufo@1.6.3: {}
 
+  utif@3.1.0:
+    dependencies:
+      pako: 1.0.11
+
   util-deprecate@1.0.2: {}
 
   vite@6.4.1:
@@ -1871,6 +1945,8 @@ snapshots:
       tinyglobby: 0.2.15
     optionalDependencies:
       fsevents: 2.3.3
+
+  wasm-feature-detect@1.8.0: {}
 
   wmf@1.0.2: {}
 

@@ -1,6 +1,6 @@
 # @polyrender/core
 
-Framework-agnostic TypeScript library for rendering documents in the browser. Supports PDF, EPUB, DOCX, ODT, ODS, CSV/TSV, source code, and plain text with a unified API.
+Framework-agnostic TypeScript library for rendering documents in the browser. Supports PDF, EPUB, DOCX, ODT, ODS, CSV/TSV, source code, plain text, and comic book archives with a unified API.
 
 For React support, see [`@polyrender/react`](https://www.npmjs.com/package/@polyrender/react).
 
@@ -16,10 +16,18 @@ Install peer dependencies only for the formats you need:
 npm install pdfjs-dist       # PDF
 npm install epubjs           # EPUB
 npm install docx-preview     # DOCX
-npm install jszip            # ODT
+npm install jszip            # ODT, CBZ comic archives
 npm install xlsx             # ODS
 npm install papaparse        # CSV/TSV
 npm install highlight.js     # Code, Markdown, JSON, XML/HTML
+
+# Comic book archives — additional optional backends:
+npm install node-unrar-js    # CBR (.cbr, RAR-compressed comics)
+npm install 7z-wasm          # CB7 (.cb7, 7-Zip-compressed comics)
+
+# Comic book archives — optional exotic image format decoders:
+npm install @jsquash/jxl     # JPEG XL images inside archives
+npm install utif             # TIFF images inside archives
 ```
 
 ## Usage
@@ -141,6 +149,14 @@ new PolyRender(container, {
   initialPage?: number,      // Starting page (default: 1)
   zoom?: number | 'fit-width' | 'fit-page' | 'auto',
   toolbar?: boolean | ToolbarConfig,
+  // ToolbarConfig fields:
+  //   navigation?: boolean    Show page nav controls (default true)
+  //   zoom?: boolean          Show zoom controls (default true)
+  //   wrapToggle?: boolean    Show word-wrap/fit toggle (auto for code, text, comic)
+  //   fullscreen?: boolean    Show fullscreen button (default true)
+  //   info?: boolean          Show filename label (default true)
+  //   download?: boolean      Show download button (default false)
+  //   position?: 'top'|'bottom'
 
   // Callbacks
   onReady?: (info: DocumentInfo) => void,
@@ -156,6 +172,7 @@ new PolyRender(container, {
   csv?: CsvOptions,
   odt?: OdtOptions,
   ods?: OdsOptions,
+  comic?: ComicOptions,
 })
 ```
 
@@ -214,6 +231,25 @@ ods: {
   maxRows?: number,   // Max rows per sheet (default 10000)
   sortable?: boolean, // Default true
   header?: boolean,   // First row is header (default true)
+}
+```
+
+**Comic book archives**
+```typescript
+comic: {
+  // Image formats to extract from the archive.
+  // Defaults to all natively supported browser formats.
+  // Add 'jxl' + jxlFallback: true  to enable JPEG XL decoding.
+  // Add 'tiff' + tiffSupport: true  to enable TIFF decoding.
+  imageFormats?: Array<'png' | 'jpg' | 'gif' | 'bmp' | 'webp' | 'avif' | 'tiff' | 'jxl'>,
+
+  // Enable JPEG XL fallback decoding via @jsquash/jxl.
+  // Requires: npm install @jsquash/jxl
+  jxlFallback?: boolean,
+
+  // Enable TIFF image decoding via utif.
+  // Requires: npm install utif
+  tiffSupport?: boolean,
 }
 ```
 
@@ -286,6 +322,13 @@ PolyRender.registerRenderer('custom-markdown', () => new MarkdownRenderer())
 | XML/HTML | `highlight.js` | `.xml`, `.html`, `.svg` |
 | Pages | _(none)_ | N/A (explicit `type: 'pages'`) |
 | Chunked PDF | `pdfjs-dist` | N/A (explicit `type: 'chunked'`) |
+| Comic — CBZ | `jszip` | `.cbz` |
+| Comic — CBR | `node-unrar-js` _(optional)_ | `.cbr` |
+| Comic — CB7 | `7z-wasm` _(optional)_ | `.cb7` |
+| Comic — CBT | _(none, built-in TAR reader)_ | `.cbt` |
+| Comic — CBA | ❌ not supported | `.cba` |
+
+Comic archives support images in PNG, JPEG, GIF, BMP, WebP, and AVIF natively. TIFF and JPEG XL require additional opt-in peer dependencies (see `ComicOptions` above).
 
 ## Live Demo
 

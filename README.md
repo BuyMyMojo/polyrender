@@ -6,13 +6,14 @@ A framework-agnostic, universal document renderer for the browser. Render PDFs, 
 
 ## Features
 
-- **Multi-format rendering** — PDF, EPUB, DOCX, CSV/TSV, source code (100+ languages), plain text
+- **Multi-format rendering** — PDF, EPUB, DOCX, ODT, ODS, CSV/TSV, source code (100+ languages), plain text, and comic book archives (.cbz, .cbr, .cb7, .cbt)
 - **Chunked loading** — Stream large documents via pre-rendered page images or split PDF chunks
 - **Fetch adapters** — Pass data directly or provide a lazy-loading callback for on-demand fetching
 - **CSS variable theming** — Dark and light themes built in, fully customizable via `--dv-*` variables
 - **Framework-agnostic** — Use vanilla JS, React, or build your own wrapper
 - **Lazy peer dependencies** — Only loads renderer libraries (pdfjs, epubjs, etc.) when that format is actually used
 - **Custom renderers** — Register your own renderer for any format via the plugin registry
+- **Word wrap / fit toggle** — Toolbar button to toggle word wrap on code/text files and fit-to-width on comic pages
 - **TypeScript-first** — Complete type definitions for all APIs
 
 ## Installation
@@ -30,8 +31,18 @@ npm install epubjs           # EPUB
 npm install docx-preview     # DOCX
 npm install papaparse        # CSV/TSV
 npm install highlight.js     # Code syntax highlighting
-npm install jszip            # ODT
+npm install jszip            # ODT, CBZ comic archives
 npm install xlsx             # ODS
+npm install papaparse        # CSV/TSV
+npm install highlight.js     # Code syntax highlighting
+
+# Comic book archives — additional optional backends:
+npm install node-unrar-js    # CBR (.cbr, RAR-compressed comics)
+npm install 7z-wasm          # CB7 (.cb7, 7-Zip-compressed comics)
+
+# Comic book archives — optional exotic image format decoders:
+npm install @jsquash/jxl     # JPEG XL images inside archives
+npm install utif             # TIFF images inside archives
 ```
 
 You only need to install peer dependencies for the formats you plan to render. Unused formats won't add to your bundle.
@@ -388,6 +399,11 @@ new PolyRender(container, {
 | XML/HTML | `highlight.js` | `.xml`, `.html`, `.svg` |
 | Pages | _(none)_ | N/A (explicit `type: 'pages'`) |
 | Chunked PDF | `pdfjs-dist` | N/A (explicit `type: 'chunked'`) |
+| Comic — CBZ | `jszip` | `.cbz` |
+| Comic — CBR | `node-unrar-js` _(optional)_ | `.cbr` |
+| Comic — CB7 | `7z-wasm` _(optional)_ | `.cb7` |
+| Comic — CBT | _(none, built-in TAR reader)_ | `.cbt` |
+| Comic — CBA | ❌ not supported | `.cba` |
 
 ## Browser Support
 
@@ -418,7 +434,8 @@ packages/
 │   │       ├── ods.ts        # ODS (xlsx)
 │   │       ├── csv.ts        # CSV/TSV (papaparse)
 │   │       ├── code.ts       # Code (highlight.js)
-│   │       └── text.ts       # Plain text
+│   │       ├── text.ts       # Plain text
+│   │       └── comic.ts      # Comic book archives (jszip / node-unrar-js / 7z-wasm)
 │   └── package.json
 └── react/          @polyrender/react — React wrapper
     ├── src/
