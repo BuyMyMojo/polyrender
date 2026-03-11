@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "React components for the PolyRender universal document renderer",
   "license": "Zlib",
+  "private": false,
   "type": "module",
   "homepage": "https://tangled.org/aria.pds.witchcraft.systems/polyrender/blob/main/packages/react/README.md",
   "bugs": {
