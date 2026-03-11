@@ -30,6 +30,8 @@ npm install epubjs           # EPUB
 npm install docx-preview     # DOCX
 npm install papaparse        # CSV/TSV
 npm install highlight.js     # Code syntax highlighting
+npm install jszip            # ODT
+npm install xlsx             # ODS
 ```
 
 You only need to install peer dependencies for the formats you plan to render. Unused formats won't add to your bundle.
@@ -315,6 +317,29 @@ See `styles.css` for the complete list.
 }
 ```
 
+### ODT
+
+```typescript
+{
+  odt: {
+    fontSize: 16,          // Base font size in pixels (default 16)
+    fontFamily: 'Georgia', // Font override
+  }
+}
+```
+
+### ODS
+
+```typescript
+{
+  ods: {
+    maxRows: 10000, // Max rows to render per sheet (default 10000)
+    sortable: true, // Enable column sorting (default true)
+    header: true,   // First row is header (default true)
+  }
+}
+```
+
 ## Custom Renderers
 
 Register a renderer for any format:
@@ -353,6 +378,8 @@ new PolyRender(container, {
 | PDF | `pdfjs-dist` | `.pdf` |
 | EPUB | `epubjs` | `.epub` |
 | DOCX | `docx-preview` | `.docx`, `.doc` |
+| ODT | `jszip` | `.odt` |
+| ODS | `xlsx` | `.ods` |
 | CSV/TSV | `papaparse` | `.csv`, `.tsv` |
 | Code | `highlight.js` | `.js`, `.ts`, `.py`, `.rs`, `.go`, `.java`, `.c`, `.cpp`, +80 more |
 | Text | _(none)_ | `.txt` |
@@ -387,6 +414,8 @@ packages/
 │   │       ├── chunked-pdf.ts  # Chunked PDF streaming
 │   │       ├── epub.ts       # EPUB (epubjs)
 │   │       ├── docx.ts       # DOCX (docx-preview)
+│   │       ├── odt.ts        # ODT (jszip)
+│   │       ├── ods.ts        # ODS (xlsx)
 │   │       ├── csv.ts        # CSV/TSV (papaparse)
 │   │       ├── code.ts       # Code (highlight.js)
 │   │       └── text.ts       # Plain text
